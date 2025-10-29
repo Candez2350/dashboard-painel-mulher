@@ -10,6 +10,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
     <!-- NOVO: 2.1. Carrega o Google Charts (para o mapa) -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     
     <!-- =================================================== -->
     <!-- 3. Fontes e Estilos Visuais Personalizados          -->
@@ -1047,101 +1052,82 @@
                 options: doughnutOptions('Composição TJRJ (2025)')
             });
         }
+    
+
+        // --- NOVO: Variável para guardar a instância do mapa Leaflet ---
+        window.leafletMapInstance = null;
         
-        // --- NOVO: Dados das Prefeitas (filtrado para usar com Nomes/Markers) ---
+        // --- NOVO: Dados das Prefeitas (com lat/lon) ---
         const prefeitasData = [
-            { cidade: "Araruama", nome: "Daniela de Livia (Daniela Cuinse Abreu)" },
-            { cidade: "Barra do Piraí", nome: "Katia Miki" },
-            { cidade: "Cantagalo", nome: "Manuela" },
-            { cidade: "Cardoso Moreira", nome: "Geane Vincler" },
-            { cidade: "Guapimirim", nome: "Marina Rocha (Marina do Modelo)" },
-            { cidade: "Japeri", nome: "Dra Fernanda Ontiveros" },
-            { cidade: "Miracema", nome: "Alessandra Freire" },
-            { cidade: "Quissamã", nome: "Fátima Pacheco" },
-            { cidade: "São Francisco de Itabapoana", nome: "Yara Cinthia" },
-            { cidade: "São João da Barra", nome: "Carla Caputi" },
-            { cidade: "São Sebastião do Alto", nome: "Claudiane Pietrani" },
-            { cidade: "Saquarema", nome: "Lucimar (Lucimar Pereira Vidal da Costa)" },
-            { cidade: "Silva Jardim", nome: "Maira Figueiredo" },
-            { cidade: "Vassouras", nome: "Rosi (Rosilane Almeida Piv T Pontes)" }
+            { cidade: "Araruama, RJ", nome: "Daniela de Livia (Daniela Cuinse Abreu)", lat: -22.873, lon: -42.343 },
+            { cidade: "Barra do Piraí, RJ", nome: "Katia Miki", lat: -22.470, lon: -43.825 },
+            { cidade: "Cantagalo, RJ", nome: "Manuela", lat: -21.982, lon: -42.368 },
+            { cidade: "Cardoso Moreira, RJ", nome: "Geane Vincler", lat: -21.492, lon: -41.623 },
+            { cidade: "Guapimirim, RJ", nome: "Marina Rocha (Marina do Modelo)", lat: -22.531, lon: -42.982 },
+            { cidade: "Japeri, RJ", nome: "Dra Fernanda Ontiveros", lat: -22.642, lon: -43.653 },
+            { cidade: "Miracema, RJ", nome: "Alessandra Freire", lat: -21.411, lon: -42.196 },
+            { cidade: "Quissamã, RJ", nome: "Fátima Pacheco", lat: -22.106, lon: -41.472 },
+            { cidade: "São Francisco de Itabapoana, RJ", nome: "Yara Cinthia", lat: -21.472, lon: -41.115 },
+            { cidade: "São João da Barra, RJ", nome: "Carla Caputi", lat: -21.640, lon: -41.051 },
+            { cidade: "São Sebastião do Alto, RJ", nome: "Claudiane Pietrani", lat: -21.968, lon: -42.115 },
+            { cidade: "Saquarema, RJ", nome: "Lucimar (Lucimar Pereira Vidal da Costa)", lat: -22.921, lon: -42.509 },
+            { cidade: "Silva Jardim, RJ", nome: "Maira Figueiredo", lat: -22.648, lon: -42.392 },
+            { cidade: "Vassouras, RJ", nome: "Rosi (Rosilane Almeida Piv T Pontes)", lat: -22.404, lon: -43.662 }
         ];
 
 
-        // --- NOVO: Função para criar o Mapa ---
+        // --- ATUALIZADO: Função para criar o Mapa (com Leaflet) ---
         function createMapaChart() {
-            // Verifica se a lib do Google Charts já foi carregada
-            if (typeof google === 'undefined' || typeof google.visualization === 'undefined' || typeof google.visualization.GeoChart === 'undefined') {
-                // Trava na versão '51' (estável) em vez de 'current'
-                google.charts.load('51', { 'packages': ['geochart'] });
-                google.charts.setOnLoadCallback(drawMap);
+            // Apenas inicializa o mapa na primeira vez que a aba é aberta
+            if (!window.leafletMapInstance) {
+                drawMap();
             } else {
-                drawMap(); // Lib já carregada, apenas desenha
+                // Se a aba for redimensionada enquanto estava escondida, o mapa "quebra".
+                // Isto corrige o tamanho do mapa.
+                setTimeout(() => {
+                    window.leafletMapInstance.invalidateSize();
+                }, 100);
             }
         }
-        
-        // --- NOVO: Função para desenhar o Mapa (MODO MARKERS) ---
+
+        // --- ATUALIZADO: Função para desenhar o Mapa (com Leaflet) ---
         function drawMap() {
-            
-            const data = new google.visualization.DataTable();
-            // Coluna 1: Nome da Cidade (string) para geocodificação
-            data.addColumn('string', 'Município'); 
-            // Coluna 2: Nome da Prefeita (para o tooltip)
-            data.addColumn('string', 'Prefeita');
-            // Coluna 3: Tooltip HTML (para estilização)
-            data.addColumn({ type: 'string', role: 'tooltip', p: { html: true } });
-
-            const rows = [];
-            
-            // Itera sobre os dados das prefeitas
-            prefeitasData.forEach(info => {
-                // Tooltip HTML personalizado
-                const tooltipHtml = `
-                    <div class="p-2 shadow-lg rounded-lg bg-white text-slate-700">
-                        <p class="font-bold text-base">${info.cidade}</p>
-                        <p class="text-sm" style="color: ${corMulheres};">
-                            Prefeita
-                        </p>
-                        <p class="text-xs text-slate-500">${info.nome}</p>
-                    </div>`;
+            try {
+                const mapContainer = document.getElementById('map_chart_div');
+                mapContainer.innerHTML = ''; // Limpa o "Carregando..."
                 
-                // Adiciona a linha: [Nome da Cidade, Nome da Prefeita (para dados), Tooltip HTML]
-                rows.push([info.cidade, info.nome, tooltipHtml]);
-            });
-            
-            data.addRows(rows);
-
-            const options = {
-                region: 'BR-RJ', // Foca no estado do Rio de Janeiro
-                displayMode: 'markers', // <<< MUDANÇA PRINCIPAL
-                backgroundColor: 'transparent', // corBgCard, 
-                datalessRegionColor: '#e2e8f0', // Cor do mapa (slate-200)
-                colorAxis: {
-                    colors: [corMulheres, corMulheres] // Cor dos marcadores
-                },
-                markerOpacity: 0.8,
-                sizeAxis: { minValue: 0, maxValue: 100, maxSize: 8 }, // Tamanho dos marcadores
-                legend: 'none', // Remove a legenda
-                tooltip: {
-                    isHtml: true, // Permite o tooltip em HTML
-                    textStyle: { 
-                        fontName: 'Poppins', 
-                        color: corTexto 
-                    }
-                }
-            };
-
-            const chartContainer = document.getElementById('map_chart_div');
-            // Limpa o "Carregando..."
-            if(chartContainer) {
-                chartContainer.innerHTML = ''; 
-            
-                const chart = new google.visualization.GeoChart(chartContainer);
+                // 1. Define o centro do mapa (calculado a partir dos pontos)
+                const centroRJ = [-22.25, -42.6];
                 
-                google.visualization.events.addListener(chart, 'ready', function() {
-                    // chartContainer.style.height = '650px'; 
+                // 2. Inicializa o mapa
+                window.leafletMapInstance = L.map('map_chart_div', {
+                    scrollWheelZoom: false // Evita zoom com o scroll da página
+                }).setView(centroRJ, 8); // Zoom nível 8
+
+                // 3. Adiciona o mapa de fundo (OpenStreetMap)
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(window.leafletMapInstance);
+
+                // 4. Adiciona os marcadores
+                prefeitasData.forEach(info => {
+                    const popupHtml = `
+                        <div class="font-sans">
+                            <p class="font-bold text-base text-slate-700">${info.cidade.replace(', RJ', '')}</p> 
+                            <p class="text-sm" style="color: ${corMulheres};">
+                                Prefeita
+                            </p>
+                            <p class="text-xs text-slate-500">${info.nome}</p>
+                        </div>`;
+                    
+                    L.marker([info.lat, info.lon])
+                        .addTo(window.leafletMapInstance)
+                        .bindPopup(popupHtml);
                 });
 
-                chart.draw(data, options);
+            } catch (e) {
+                console.error("Erro ao desenhar o mapa Leaflet:", e);
+                document.getElementById('map_chart_div').innerHTML = "Erro ao carregar o mapa.";
             }
         }
         
