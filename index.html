@@ -188,6 +188,17 @@
             border-radius: 0.75rem;
             z-index: 0; /* Evita sobrepor o menu */
         }
+        
+        /* Rodapé Dinâmico */
+        #dynamic-footer {
+            background-color: var(--color-bg-card);
+            border-top: 1px solid var(--color-border-card);
+            padding: 1.5rem;
+            color: var(--color-text-tertiary);
+            font-size: 0.75rem;
+            text-align: center;
+            margin-top: auto;
+        }
     </style>
 </head>
 <body class="font-sans">
@@ -224,7 +235,7 @@
             </button>
             <button class="sidebar-button" onclick="showTab('jornada', this)">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                <span>Cuidado</span>
+                <span>Dupla Jornada</span>
             </button>
             <button class="sidebar-button" onclick="showTab('poder', this)">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.8.9-2 1-3 1-1 0-2.1-.1-3-1Z"></path><path d="m2 16 3-8 3 8c-.8.9-2 1-3 1-1 0-2.1-.1-3-1Z"></path><path d="M12 3v18"></path><path d="M7 12h10"></path></svg>
@@ -238,7 +249,13 @@
             </button>
             <button class="sidebar-button" onclick="showTab('mapa', this)">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
-                <span>Representação feminina nas Prefeituras</span>
+                <span>Mapa Político</span>
+            </button>
+            <!-- Botão para Fontes/Links RENOMEADO -->
+            <button class="sidebar-button" onclick="showTab('fontes', this)">
+                <!-- Ícone Link/External -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                <span>Outros Painéis</span>
             </button>
         </nav>
         
@@ -258,15 +275,15 @@
     </header>
 
     <!-- Main Content -->
-    <main class="lg:ml-64 h-screen overflow-y-auto">
-        <div id="main-content" class="p-4 md:p-8">
+    <main class="lg:ml-64 h-screen overflow-y-auto flex flex-col">
+        <div id="main-content" class="p-4 md:p-8 flex-grow">
 
             <!-- Aba 1: Início -->
             <div id="inicio" class="tab-panel active-panel opacity-100">
                 <div class="chart-card mb-8 card-animate"> 
                     <h2 class="text-2xl font-semibold text-slate-800 mb-3">Bem-vindo(a) ao Painel de Disparidade de Gênero</h2>
                     <p class="text-slate-600 leading-relaxed">
-                        Este dashboard centraliza indicadores-chave que ilustram as diferenças nas esferas de trabalho, renda, educação e vida social entre homens e mulheres no Brasil.
+                        Este dashboard centraliza indicadores-chave que ilustram as diferenças nas esferas de trabalho, renda, educação e vida social entre homens e mulheres no Estado do Rio de Janeiro.
                         Use o menu ao lado para se aprofundar em cada tema. O objetivo é fornecer dados claros para embasar discussões e a formulação de políticas públicas.
                     </p>
                 </div>
@@ -460,7 +477,7 @@
             
             <!-- Aba 4: Dupla Jornada -->
             <div id="jornada" class="tab-panel">
-                <h2 class="h2-title card-animate">Cuidado</h2>
+                <h2 class="h2-title card-animate">Dupla Jornada (Afazeres Domésticos)</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <div class="kpi-card card-animate" style="animation-delay: 100ms;">
                         <h3 class="kpi-title">Horas Semanais a Mais (2022)</h3>
@@ -580,7 +597,7 @@
 
             <!-- Aba 7: Mapa Político -->
             <div id="mapa" class="tab-panel">
-                <h2 class="h2-title card-animate">Representação feminina: Prefeituras RJ (2025)</h2>
+                <h2 class="h2-title card-animate">Mapa Político: Prefeituras RJ (2025)</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <div class="kpi-card card-animate" style="animation-delay: 100ms;">
                         <h3 class="kpi-title">Total de Prefeituras</h3>
@@ -605,8 +622,135 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- NOVO: Aba 8: Outros Painéis (Renomeada) -->
+            <div id="fontes" class="tab-panel">
+                 <div class="chart-card mb-8 card-animate"> 
+                    <h2 class="text-2xl font-semibold text-slate-800 mb-3">Acesse Outros Portais de Monitoramento</h2>
+                    <p class="text-slate-600 leading-relaxed">
+                        Abaixo você encontra links para outros painéis e relatórios oficiais que complementam a análise sobre a situação da mulher no Rio de Janeiro e no Brasil.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center card-animate" style="animation-delay: 100ms;">
+                    
+                    <!-- Card 1: ISP Mulher -->
+                    <a href="https://www.ispconecta.rj.gov.br/ispmulher/" target="_blank" rel="noopener" class="group relative block w-full max-w-[320px] rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[var(--color-accent)] transition-all duration-300">
+                        <div class="p-5 flex flex-col h-full">
+                            <div class="flex items-start gap-3">
+                                <div class="shrink-0 rounded-lg p-3" style="background-color: rgba(139, 92, 246, 0.1); color: var(--color-accent);">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"></line><line x1="12" x2="12" y1="20" y2="4"></line><line x1="6" x2="6" y1="20" y2="14"></line></svg>
+                                </div>
+                                <div class="min-w-0">
+                                    <h3 class="font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">Painel Mulher (ISP)</h3>
+                                    <p class="text-sm mt-1 text-gray-600">Visualização interativa sobre violência contra a mulher no RJ.</p>
+                                </div>
+                            </div>
+                            <span class="mt-auto inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)] pt-4 group-hover:translate-x-1 transition-transform">
+                                Acessar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- Card 2: Dossiê Mulher -->
+                    <a href="https://ispconecta.rj.gov.br/dossie_mulher/" target="_blank" rel="noopener" class="group relative block w-full max-w-[320px] rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[var(--color-accent)] transition-all duration-300">
+                        <div class="p-5 flex flex-col h-full">
+                            <div class="flex items-start gap-3">
+                                <div class="shrink-0 rounded-lg p-3" style="background-color: rgba(139, 92, 246, 0.1); color: var(--color-accent);">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M8 18v-2"></path><path d="M12 18v-4"></path><path d="M16 18v-6"></path></svg>
+                                </div>
+                                <div class="min-w-0">
+                                    <h3 class="font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">Dossiê Mulher</h3>
+                                    <p class="text-sm mt-1 text-gray-600">Estudos e relatórios completos com análises aprofundadas.</p>
+                                </div>
+                            </div>
+                            <span class="mt-auto inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)] pt-4 group-hover:translate-x-1 transition-transform">
+                                Acessar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- Card 3: Saúde -->
+                    <a href="https://cisshiny.saude.rj.gov.br/_d/violencia_select/" target="_blank" rel="noopener" class="group relative block w-full max-w-[320px] rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[var(--color-accent)] transition-all duration-300">
+                        <div class="p-5 flex flex-col h-full">
+                            <div class="flex items-start gap-3">
+                                <div class="shrink-0 rounded-lg p-3" style="background-color: rgba(139, 92, 246, 0.1); color: var(--color-accent);">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+                                </div>
+                                <div class="min-w-0">
+                                    <h3 class="font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">Saúde RJ</h3>
+                                    <p class="text-sm mt-1 text-gray-600">Informações e materiais de saúde pública relacionados à temática.</p>
+                                </div>
+                            </div>
+                            <span class="mt-auto inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)] pt-4 group-hover:translate-x-1 transition-transform">
+                                Acessar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- Card 4: Ministério da Justiça -->
+                    <a href="https://app.powerbi.com/view?r=eyJrIjoiZWUwOWJhYmYtZjAzNi00ZmRkLWJlZmMtODQ3NjdlZmZjNTZlIiwidCI6ImViMDkwNDIwLTQ0NGMtNDNmNy05MWYyLTRiOGRhNmJmZThlMSJ9" target="_blank" rel="noopener" class="group relative block w-full max-w-[320px] rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[var(--color-accent)] transition-all duration-300">
+                        <div class="p-5 flex flex-col h-full">
+                            <div class="flex items-start gap-3">
+                                <div class="shrink-0 rounded-lg p-3" style="background-color: rgba(139, 92, 246, 0.1); color: var(--color-accent);">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="M7 21h10"></path><path d="M12 3v18"></path><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path></svg>
+                                </div>
+                                <div class="min-w-0">
+                                    <h3 class="font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">Ministério da Justiça</h3>
+                                    <p class="text-sm mt-1 text-gray-600">Painel público federal com indicadores de violência contra a mulher.</p>
+                                </div>
+                            </div>
+                            <span class="mt-auto inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)] pt-4 group-hover:translate-x-1 transition-transform">
+                                Acessar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- Card 5: TJRJ -->
+                    <a href="https://app.powerbi.com/view?r=eyJrIjoiMjI3OTY1ZDMtMTYyMS00ZDIzLThjMGYtMGMyZDFiYjk0MWIyIiwidCI6ImNlNGUxMTY0LTk4NmYtNDEzMi04NWQxLTFlM2MxN2NmN2Q2ZSIsImMiOjR9" target="_blank" rel="noopener" class="group relative block w-full max-w-[320px] rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[var(--color-accent)] transition-all duration-300">
+                        <div class="p-5 flex flex-col h-full">
+                            <div class="flex items-start gap-3">
+                                <div class="shrink-0 rounded-lg p-3" style="background-color: rgba(139, 92, 246, 0.1); color: var(--color-accent);">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 18v-7"></path><path d="M11.12 2.198a2 2 0 0 1 1.76.006l7.866 3.847c.476.233.31.949-.22.949H3.474c-.53 0-.695-.716-.22-.949z"></path><path d="M14 18v-7"></path><path d="M18 18v-7"></path><path d="M3 22h18"></path><path d="M6 18v-7"></path></svg>
+                                </div>
+                                <div class="min-w-0">
+                                    <h3 class="font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">Tribunal de Justiça (RJ)</h3>
+                                    <p class="text-sm mt-1 text-gray-600">Painel oficial do TJRJ com dados judiciais e monitoramento.</p>
+                                </div>
+                            </div>
+                            <span class="mt-auto inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)] pt-4 group-hover:translate-x-1 transition-transform">
+                                Acessar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- Card 6: CNJ -->
+                    <a href="https://www.cnj.jus.br/programas-e-acoes/violencia-contra-a-mulher/painel-da-violencia-domestica/" target="_blank" rel="noopener" class="group relative block w-full max-w-[320px] rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[var(--color-accent)] transition-all duration-300">
+                        <div class="p-5 flex flex-col h-full">
+                            <div class="flex items-start gap-3">
+                                <div class="shrink-0 rounded-lg p-3" style="background-color: rgba(139, 92, 246, 0.1); color: var(--color-accent);">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>
+                                </div>
+                                <div class="min-w-0">
+                                    <h3 class="font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">CNJ - Violência Doméstica</h3>
+                                    <p class="text-sm mt-1 text-gray-600">Painel nacional do Conselho Nacional de Justiça.</p>
+                                </div>
+                            </div>
+                            <span class="mt-auto inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)] pt-4 group-hover:translate-x-1 transition-transform">
+                                Acessar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                            </span>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
 
         </div>
+
+        <!-- Rodapé Dinâmico -->
+        <footer id="dynamic-footer" class="bg-white border-t border-slate-200 p-6 text-center text-xs text-slate-500">
+            Fonte: Instituto Brasileiro de Geografia e Estatistica - IBGE
+        </footer>
     </main>
 
     <script>
@@ -676,6 +820,17 @@
                     setTimeout(() => { if (!panel.classList.contains('active-panel')) panel.classList.add('hidden'); }, 400);
                 }
             });
+            
+            // --- ATUALIZAÇÃO: Lógica do Rodapé Dinâmico ---
+            const footer = document.getElementById('dynamic-footer');
+            if (footer) {
+                if (tabId === 'poder') {
+                    footer.innerHTML = "Fonte: Assembleia Legislativa do Estado do Rio de Janeiro, Tribunal de Justiça do Rio de Janeiro, Governo do Estado do Rio de Janeiro e Instituto Brasileiro de Geografia e Estatistica - IBGE";
+                } else {
+                    footer.innerHTML = "Fonte: Instituto Brasileiro de Geografia e Estatistica - IBGE";
+                }
+            }
+            // -----------------------------------------------
 
             if (tabId === 'renda') createRendaCharts();
             else if (tabId === 'jornada') createJornadaCharts();
