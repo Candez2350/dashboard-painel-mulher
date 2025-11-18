@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard (Refined) | Disparidade de Gênero</title>
-    <!-- 1. Carrega o Tailwind CSS -->
+    <!-- 1. Carrega o Tailwind CSS -->f
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- 2. Carrega o Chart.js (biblioteca de gráficos) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
@@ -240,11 +240,11 @@
             </button>
             <button class="sidebar-button" onclick="showTab('jornada', this)">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                <span>Dupla Jornada</span>
+                <span>Cuidado</span>
             </button>
             <button class="sidebar-button" onclick="showTab('poder', this)">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m16 16 3-8 3 8c-.8.9-2 1-3 1-1 0-2.1-.1-3-1Z"></path><path d="m2 16 3-8 3 8c-.8.9-2 1-3 1-1 0-2.1-.1-3-1Z"></path><path d="M12 3v18"></path><path d="M7 12h10"></path></svg>
-                <span>Poder Público</span>
+                <span>Representação Feminina</span>
             </button>
             <button class="sidebar-button" onclick="showTab('lideranca', this)">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -259,7 +259,7 @@
             
             <button class="sidebar-button" onclick="showTab('fontes', this)">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-                <span>Outros Painéis</span>
+                <span>Violências de Gênero</span>
             </button>
         </nav>
     </aside>
@@ -574,9 +574,9 @@
                 </div>
             </div>
             
-            <!-- Aba 4: Dupla Jornada (Mantida) -->
+            <!-- Aba 4: Cuidado (Mantida) -->
             <div id="jornada" class="tab-panel">
-                <h2 class="h2-title card-animate">Dupla Jornada (Afazeres Domésticos)</h2>
+                <h2 class="h2-title card-animate">Cuidado (Afazeres Domésticos)</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <div class="kpi-card card-animate" style="animation-delay: 100ms;"><h3 class="kpi-title">Horas Semanais a Mais (2022)</h3><p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-warning);" data-value="7.6" data-prefix="+" data-suffix="h">+0,0h</p></div>
                     <div class="kpi-card card-animate" style="animation-delay: 200ms;"><h3 class="kpi-title">Taxa de Afazeres (25-49 anos)</h3><p class="kpi-value kpi-value-animated" style="color: var(--color-mulheres);" data-value="94.7" data-suffix="%">0,0%</p></div>
@@ -589,7 +589,7 @@
                 </div>
             </div>
             
-            <!-- Aba 5: Poder Público (Mantida) -->
+            <!-- Aba 5: Representação Feminina (Mantida) -->
             <div id="poder" class="tab-panel">
                 <h2 class="h2-title card-animate">Representação Política (Cargos Eletivos)</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -637,14 +637,14 @@
                 </div>
             </div>
             
-            <!-- Aba 8: Outros Painéis (Mantida) -->
+            <!-- Aba 8: Violências de Gênero (Mantida) -->
             <div id="fontes" class="tab-panel">
                  <div class="chart-card mb-8 card-animate"> 
                     <h2 class="text-2xl font-semibold text-slate-800 mb-3">Acesse Outros Portais de Monitoramento</h2>
-                    <p class="text-slate-600 leading-relaxed">Links para outros painéis e relatórios oficiais.</p>
+                    <p class="text-slate-600 leading-relaxed">Links para Violências de Gênero e relatórios oficiais.</p>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center card-animate" style="animation-delay: 100ms;">
-                    <!-- Cards dos outros painéis (HTML mantido do passo anterior) -->
+                    <!-- Cards dos Violências de Gênero (HTML mantido do passo anterior) -->
                     <a href="https://www.ispconecta.rj.gov.br/ispmulher/" target="_blank" rel="noopener" class="group relative block w-full max-w-[320px] rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[var(--color-accent)] transition-all duration-300"><div class="p-5 flex flex-col h-full"><div class="flex items-start gap-3"><div class="shrink-0 rounded-lg p-3" style="background-color: rgba(139, 92, 246, 0.1); color: var(--color-accent);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" x2="18" y1="20" y2="10"></line><line x1="12" x2="12" y1="20" y2="4"></line><line x1="6" x2="6" y1="20" y2="14"></line></svg></div><div class="min-w-0"><h3 class="font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">Painel Mulher (ISP)</h3><p class="text-sm mt-1 text-gray-600">Violência contra a mulher no RJ.</p></div></div><span class="mt-auto inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)] pt-4 group-hover:translate-x-1 transition-transform">Acessar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span></div></a>
                     <a href="https://ispconecta.rj.gov.br/dossie_mulher/" target="_blank" rel="noopener" class="group relative block w-full max-w-[320px] rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[var(--color-accent)] transition-all duration-300"><div class="p-5 flex flex-col h-full"><div class="flex items-start gap-3"><div class="shrink-0 rounded-lg p-3" style="background-color: rgba(139, 92, 246, 0.1); color: var(--color-accent);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M8 18v-2"></path><path d="M12 18v-4"></path><path d="M16 18v-6"></path></svg></div><div class="min-w-0"><h3 class="font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">Dossiê Mulher</h3><p class="text-sm mt-1 text-gray-600">Estudos e relatórios.</p></div></div><span class="mt-auto inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)] pt-4 group-hover:translate-x-1 transition-transform">Acessar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span></div></a>
                     <a href="https://cisshiny.saude.rj.gov.br/_d/violencia_select/" target="_blank" rel="noopener" class="group relative block w-full max-w-[320px] rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[var(--color-accent)] transition-all duration-300"><div class="p-5 flex flex-col h-full"><div class="flex items-start gap-3"><div class="shrink-0 rounded-lg p-3" style="background-color: rgba(139, 92, 246, 0.1); color: var(--color-accent);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg></div><div class="min-w-0"><h3 class="font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">Saúde RJ</h3><p class="text-sm mt-1 text-gray-600">Materiais de saúde pública.</p></div></div><span class="mt-auto inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)] pt-4 group-hover:translate-x-1 transition-transform">Acessar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span></div></a>
