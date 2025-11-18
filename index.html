@@ -8,19 +8,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- 2. Carrega o Chart.js (biblioteca de gráficos) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
-    <!-- 3. Carrega o Leaflet CSS e JS (Substituindo Google Charts) -->
+    <!-- 3. Carrega o Leaflet CSS e JS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     
-    <!-- =================================================== -->
-    <!-- 4. Fontes e Estilos Visuais Personalizados          -->
-    <!-- =================================================== -->
+    <!-- 4. Fontes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
     
     <style>
-        /* --- Definição da Paleta de Cores Centralizada (TEMA LIGHT LILÁS) --- */
+        /* --- TEMA LIGHT LILÁS & DESIGN SYSTEM --- */
         :root {
             /* Cores de Gênero */
             --color-mulheres: #fb7185; /* rose-400 */
@@ -28,9 +26,10 @@
             --color-homens: #64748b; /* slate-500 */
             --color-homens-border: #475569; /* slate-600 */
             
-            /* Cores do Tema (LIGHT LILÁS) */
+            /* Cores do Tema */
             --color-accent: #8b5cf6; /* violet-500 */
-            --color-accent-shadow: rgba(139, 92, 246, 0.3); 
+            --color-accent-light: #a78bfa; /* violet-400 */
+            --color-accent-shadow: rgba(139, 92, 246, 0.25); 
             --color-bg-body: #f5f3ff; /* violet-50 */
             --color-bg-sidebar: #ffffff; 
             --color-bg-card: #ffffff; 
@@ -38,258 +37,350 @@
             --color-border-divider: #ddd6fe; /* violet-200 */
 
             /* Cores de Texto */
-            --color-text-primary: #1e293b; /* slate-800 */
-            --color-text-secondary: #475569; /* slate-600 */
-            --color-text-tertiary: #64748b; /* slate-500 */
-            --color-text-muted: #94a3b8; /* slate-400 */
+            --color-text-primary: #1e293b; 
+            --color-text-secondary: #475569; 
+            --color-text-tertiary: #64748b; 
+            --color-text-muted: #94a3b8; 
             
-            /* Cores de KPI */
-            --color-kpi-negative: #ef4444; /* red-500 */
-            --color-kpi-positive: #10b981; /* emerald-500 */
-            --color-kpi-warning: #f59e0b; /* amber-500 */
+            /* KPI Colors */
+            --color-kpi-negative: #ef4444; 
+            --color-kpi-positive: #10b981; 
+            --color-kpi-warning: #f59e0b; 
         }
         
-        /* --- Estilo base --- */
         body {
             font-family: 'Poppins', sans-serif;
             background-color: var(--color-bg-body);
             color: var(--color-text-secondary);
         }
 
-        /* --- Estilos para a Sidebar --- */
+        /* --- Sidebar Styles --- */
         .sidebar-button {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            width: 100%;
-            text-align: left;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            padding: 0.75rem 1.5rem;
-            border-left: 4px solid transparent;
-            color: var(--color-text-tertiary);
-            font-size: 0.95rem;
-            font-weight: 500;
-            border-radius: 0.5rem;
+            display: flex; align-items: center; gap: 0.75rem; width: 100%; text-align: left;
+            transition: all 0.3s ease; cursor: pointer; padding: 0.75rem 1.5rem;
+            border-left: 4px solid transparent; color: var(--color-text-tertiary);
+            font-size: 0.95rem; font-weight: 500; border-radius: 0.5rem;
         }
         .sidebar-button:hover {
-            color: var(--color-text-primary);
-            background-color: rgba(0, 0, 0, 0.03);
+            color: var(--color-text-primary); background-color: rgba(0, 0, 0, 0.03);
         }
         .active-tab {
-            border-left-color: var(--color-accent);
-            color: var(--color-accent);
-            font-weight: 600;
-            background-color: rgba(139, 92, 246, 0.05);
+            border-left-color: var(--color-accent); color: var(--color-accent);
+            font-weight: 600; background-color: rgba(139, 92, 246, 0.08);
         }
         .sidebar-button svg {
-            width: 1.25rem; height: 1.25rem; flex-shrink: 0;
-            stroke: currentColor; stroke-width: 2; fill: none;
-            transition: all 0.3s ease;
+            width: 1.25rem; height: 1.25rem; flex-shrink: 0; stroke: currentColor; stroke-width: 2; fill: none; transition: all 0.3s ease;
         }
-        .active-tab svg {
-            fill: var(--color-accent-shadow);
-            stroke: var(--color-accent);
-        }
+        .active-tab svg { fill: var(--color-accent-shadow); stroke: var(--color-accent); }
 
-        /* --- Estilos para Cards --- */
+        /* --- Card Styles --- */
         .kpi-card, .chart-card {
             background-color: var(--color-bg-card);
             border: 1px solid var(--color-border-card);
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            padding: 1.5rem;
-            transition: all 0.3s ease-in-out;
+            border-radius: 1rem; /* Mais arredondado */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            padding: 1.5rem; transition: all 0.3s ease-in-out;
         }
         .kpi-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.04), 0 0 20px var(--color-accent-shadow);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px -5px rgba(139, 92, 246, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: var(--color-accent-light);
         }
         
-        /* --- Tipografia --- */
+        /* --- Typography --- */
         .h1-title { font-size: 1.75rem; font-weight: 800; color: var(--color-text-primary); letter-spacing: -0.025em; }
         .h2-title { font-size: 1.875rem; font-weight: 700; color: var(--color-text-primary); letter-spacing: -0.025em; margin-bottom: 1.5rem; }
         .h3-title { font-size: 1.25rem; font-weight: 600; color: var(--color-text-secondary); margin-bottom: 1rem; }
-        .kpi-title { font-size: 0.875rem; font-weight: 500; color: var(--color-text-tertiary); margin-bottom: 0.5rem; }
-        .kpi-value { font-size: 2.25rem; font-weight: 700; }
-        .kpi-subtitle { font-size: 0.75rem; color: var(--color-text-muted); margin-top: 0.25rem; }
+        .kpi-title { font-size: 0.875rem; font-weight: 600; color: var(--color-text-tertiary); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .kpi-value { font-size: 2.5rem; font-weight: 700; line-height: 1; }
+        .kpi-subtitle { font-size: 0.8rem; color: var(--color-text-muted); margin-top: 0.5rem; font-weight: 400; }
 
-        /* --- Animações --- */
+        /* --- Animations --- */
         .kpi-value-animated { font-variant-numeric: tabular-nums; }
-        .tab-panel { transition: opacity 0.4s ease-in-out; }
+        .tab-panel { transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
         .tab-panel:not(.active-panel) { opacity: 0; display: none; }
         
-        @keyframes fade-in-up {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .card-animate {
-            animation: fade-in-up 0.5s ease-out forwards;
-            opacity: 0; 
-        }
+        @keyframes fade-in-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .card-animate { animation: fade-in-up 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; opacity: 0; }
         
         .animated-gradient-text {
-            background: linear-gradient(90deg, var(--color-text-primary), var(--color-accent), var(--color-text-primary));
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradient-flow 5s ease infinite;
+            background: linear-gradient(135deg, var(--color-text-primary) 0%, var(--color-accent) 50%, var(--color-mulheres) 100%);
+            background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: gradient-flow 6s ease infinite;
         }
-        @keyframes gradient-flow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+        @keyframes gradient-flow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 0 20px var(--color-accent-shadow); }
-            50% { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.04), 0 0 35px var(--color-accent-shadow); }
-        }
         .impact-glow {
-            animation: fade-in-up 0.5s ease-out forwards, pulse-glow 2.5s ease-in-out infinite;
-            animation-delay: inherit, 0.7s; 
+            animation: fade-in-up 0.5s ease-out forwards;
+            box-shadow: 0 0 0 1px var(--color-border-card), 0 10px 30px -5px rgba(139, 92, 246, 0.15);
         }
 
         /* --- Table Styles --- */
-        .custom-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-        }
-        .custom-table th, .custom-table td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid var(--color-border-card);
-        }
-        .custom-table th {
-            background-color: #f8fafc; /* slate-50 */
-            font-weight: 600;
-            color: var(--color-text-secondary);
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            position: sticky;
-            top: 0;
-        }
-        .custom-table tbody tr:hover {
-            background-color: #f5f3ff; /* violet-50 hover */
-        }
-        .custom-table td {
-            color: var(--color-text-primary);
-            font-size: 0.9rem;
-        }
-        .custom-table td:first-child {
-            font-weight: 500;
-            color: var(--color-text-secondary);
-        }
+        .custom-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+        .custom-table th, .custom-table td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--color-border-card); }
+        .custom-table th { background-color: #f8fafc; font-weight: 600; color: var(--color-text-secondary); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; position: sticky; top: 0; }
+        .custom-table tbody tr:hover { background-color: #f5f3ff; transition: background-color 0.2s; }
+        .custom-table td { color: var(--color-text-primary); font-size: 0.9rem; }
+        .custom-table td:first-child { font-weight: 600; color: var(--color-accent); }
         
-        /* Mapa Leaflet */
-        .leaflet-container {
-            border-radius: 0.75rem;
-            z-index: 0; /* Evita sobrepor o menu */
-        }
+        .leaflet-container { border-radius: 1rem; z-index: 0; box-shadow: inset 0 0 20px rgba(0,0,0,0.05); }
+        #dynamic-footer { background-color: var(--color-bg-card); border-top: 1px solid var(--color-border-card); padding: 1.5rem; color: var(--color-text-tertiary); font-size: 0.75rem; text-align: center; margin-top: auto; }
+
+        /* ========================================= */
+        /* ESTILOS ESPECÍFICOS DA HOME PAGE     */
+        /* ========================================= */
         
-        /* Rodapé Dinâmico */
-        #dynamic-footer {
-            background-color: var(--color-bg-card);
-            border-top: 1px solid var(--color-border-card);
-            padding: 1.5rem;
-            color: var(--color-text-tertiary);
-            font-size: 0.75rem;
-            text-align: center;
-            margin-top: auto;
+        /* Fundo com Noise (Granulação) */
+        .bg-noise {
+            position: relative;
+            background-color: #fdfbf7; /* Off-white quente */
+            overflow: hidden;
         }
+        .bg-noise::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Blobs Animados no Fundo */
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            z-index: 0;
+            opacity: 0.6;
+            animation: floatBlob 10s infinite ease-in-out alternate;
+        }
+        .blob-1 { top: -10%; right: -5%; width: 500px; height: 500px; background: #ddd6fe; border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; animation-delay: 0s; }
+        .blob-2 { bottom: -10%; left: -10%; width: 600px; height: 600px; background: #fce7f3; border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; animation-delay: -5s; }
+        @keyframes floatBlob { 0% { transform: translate(0, 0) rotate(0deg); } 100% { transform: translate(30px, 50px) rotate(10deg); } }
+
+        /* Texto Editorial */
+        .font-editorial { font-family: 'Playfair Display', serif; }
+
+        /* Cards de Navegação da Home */
+        .nav-card {
+            position: relative;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 1.5rem;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            z-index: 1;
+        }
+        .nav-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 20px 40px -10px rgba(139, 92, 246, 0.2);
+            border-color: var(--color-accent);
+        }
+        .nav-card .icon-box {
+            width: 3rem; height: 3rem;
+            border-radius: 1rem;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 1rem;
+            transition: transform 0.4s ease;
+        }
+        .nav-card:hover .icon-box { transform: scale(1.1) rotate(-5deg); }
+
     </style>
 </head>
-<body class="font-sans">
+<body class="font-sans h-screen flex overflow-hidden bg-noise">
 
-    <!-- Sidebar Overlay (Mobile) -->
-    <div id="sidebar-overlay" onclick="toggleSidebar(false)" class="fixed inset-0 z-20 bg-black bg-opacity-50 hidden lg:hidden"></div>
+    <!-- Sidebar Overlay (Agora visível em todas as resoluções quando aberto) -->
+    <div id="sidebar-overlay" onclick="toggleSidebar(false)" class="fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-sm hidden transition-opacity"></div>
 
-    <!-- Sidebar -->
-    <aside id="sidebar" class="w-64 h-screen p-6 flex flex-col flex-shrink-0 fixed top-0 left-0 z-30 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out" style="background-color: var(--color-bg-sidebar);">
-        <header class="mb-8">
-            <div class="mb-4">
-                <svg class="h-10 w-10" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="18" height="28" rx="2" fill="var(--color-text-tertiary)" transform="translate(0 12)"/>
-                    <rect width="18" height="18" rx="2" fill="var(--color-accent)" transform="translate(22 22)"/>
-                </svg>
+    <!-- Sidebar (Agora oculta por padrão em todas as resoluções) -->
+    <aside id="sidebar" class="w-72 h-full p-6 flex flex-col flex-shrink-0 fixed top-0 left-0 z-50 bg-white/90 backdrop-blur-md border-r border-slate-100 transform -translate-x-full transition-transform duration-300 ease-in-out shadow-2xl">
+        <header class="mb-10 px-2">
+            <div class="flex items-center gap-3 mb-2">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center text-white shadow-lg shadow-violet-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                </div>
+                <span class="font-bold text-xl tracking-tight text-slate-800">Gênero<span class="text-violet-500">RJ</span></span>
+                
+                <!-- Botão Fechar Sidebar (Mobile/Desktop) -->
+                <button onclick="toggleSidebar(false)" class="ml-auto p-2 text-slate-400 hover:text-slate-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
             </div>
-            <h1 class="h1-title animated-gradient-text">Análise de Gênero</h1>
-            <p class="text-sm" style="color: var(--color-text-tertiary);">Dashboard de Disparidade</p>
+            <p class="text-xs font-medium text-slate-400 uppercase tracking-wider pl-1">Painel de Monitoramento</p>
         </header>
 
-        <nav id="tab-navigation" class="flex flex-col gap-2">
-            <button class="sidebar-button active-tab" onclick="showTab('inicio', this)">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                <span>Início</span>
+        <nav id="tab-navigation" class="flex flex-col gap-1 flex-1 overflow-y-auto scrollbar-hide">
+            <!-- HOME (Nova) -->
+            <button class="sidebar-button active-tab" onclick="showTab('home', this)">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                <span>Apresentação</span>
+            </button>
+            
+            <div class="my-4 border-t border-slate-100"></div>
+            <p class="px-4 mb-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Indicadores</p>
+
+            <!-- Visão Geral (Antigo Início) -->
+            <button class="sidebar-button" onclick="showTab('visao-geral', this)">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                <span>Visão Geral</span>
             </button>
             <button class="sidebar-button" onclick="showTab('educacao', this)">
-                <!-- Ícone Graduation Cap -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
                 <span>Educação</span>
             </button>
+            <button class="sidebar-button" onclick="showTab('saude', this)">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                <span>Saúde</span>
+            </button>
             <button class="sidebar-button" onclick="showTab('renda', this)">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
                 <span>Emprego e Renda</span>
             </button>
             <button class="sidebar-button" onclick="showTab('jornada', this)">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                 <span>Dupla Jornada</span>
             </button>
             <button class="sidebar-button" onclick="showTab('poder', this)">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.8.9-2 1-3 1-1 0-2.1-.1-3-1Z"></path><path d="m2 16 3-8 3 8c-.8.9-2 1-3 1-1 0-2.1-.1-3-1Z"></path><path d="M12 3v18"></path><path d="M7 12h10"></path></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m16 16 3-8 3 8c-.8.9-2 1-3 1-1 0-2.1-.1-3-1Z"></path><path d="m2 16 3-8 3 8c-.8.9-2 1-3 1-1 0-2.1-.1-3-1Z"></path><path d="M12 3v18"></path><path d="M7 12h10"></path></svg>
                 <span>Poder Público</span>
             </button>
-            <!-- Botão para Liderança -->
             <button class="sidebar-button" onclick="showTab('lideranca', this)">
-                <!-- Ícone Users/Briefcase (Gestão) -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 <span>Liderança e Gestão</span>
             </button>
             <button class="sidebar-button" onclick="showTab('mapa', this)">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
                 <span>Mapa Político</span>
             </button>
-            <!-- Botão para Fontes/Links RENOMEADO -->
+            
+            <div class="my-4 border-t border-slate-100"></div>
+            
             <button class="sidebar-button" onclick="showTab('fontes', this)">
-                <!-- Ícone Link/External -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
                 <span>Outros Painéis</span>
             </button>
         </nav>
-        
-        <div class="mt-auto text-xs" style="color: var(--color-text-muted);">
-            <p>© 2025. Dados (2016-2025)</p>
-        </div>
     </aside>
 
-    <!-- Mobile Header -->
-    <header class="sticky top-0 z-10 lg:hidden flex items-center justify-between p-4" style="background-color: var(--color-bg-card); border-bottom: 1px solid var(--color-border-card);">
-        <h1 id="mobile-title" class="text-lg font-semibold" style="color: var(--color-text-primary);">Início</h1>
-        <button onclick="toggleSidebar(true)" class="p-2 rounded-md" style="color: var(--color-text-tertiary);">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-        </button>
-    </header>
+    <!-- Top Bar (Agora visível em todas as resoluções) -->
+    <div class="fixed top-0 left-0 right-0 h-16 bg-white/80 backdrop-blur-md border-b border-slate-200 z-30 flex items-center px-4 justify-between">
+        <div class="flex items-center gap-4">
+            <!-- Botão Hambúrguer (Visível sempre) -->
+            <button onclick="toggleSidebar(true)" class="p-2 rounded-md text-slate-600 hover:bg-slate-100 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+            </button>
+            <span id="mobile-title" class="font-bold text-lg text-slate-800">Apresentação</span>
+        </div>
+    </div>
 
-    <!-- Main Content -->
-    <main class="lg:ml-64 h-screen overflow-y-auto flex flex-col">
-        <div id="main-content" class="p-4 md:p-8 flex-grow">
+    <!-- Main Content (Agora full-width em todas as resoluções) -->
+    <main class="w-full h-full overflow-y-auto relative">
+        <!-- Blobs de Fundo -->
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
 
-            <!-- Aba 1: Início -->
-            <div id="inicio" class="tab-panel active-panel opacity-100">
+        <div id="main-content" class="relative z-10 p-4 pt-20 lg:p-10 lg:pt-24 min-h-full flex flex-col">
+
+            <!-- ABA 0: HOME -->
+            <div id="home" class="tab-panel active-panel opacity-100">
+                <div class="max-w-5xl mx-auto">
+                    <!-- Hero Section -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16 mt-4">
+                        <div class="space-y-6 card-animate" style="animation-delay: 100ms;">
+                            <div class="inline-flex items-center px-3 py-1 rounded-full bg-violet-100 text-violet-600 text-xs font-bold tracking-wide uppercase">
+                                Monitoramento 2025
+                            </div>
+                            <h1 class="font-editorial text-4xl md:text-5xl lg:text-6xl text-slate-800 leading-tight">
+                                A realidade da mulher fluminense em <span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-fuchsia-500">dados.</span>
+                            </h1>
+                            <p class="text-lg text-slate-600 leading-relaxed">
+                                Uma plataforma integrada para monitorar, analisar e combater as desigualdades de gênero no estado do Rio de Janeiro. Explore indicadores de renda, trabalho, saúde e poder.
+                            </p>
+                            <div class="flex flex-wrap gap-4 pt-2">
+                                <button onclick="showTab('visao-geral', document.querySelectorAll('.sidebar-button')[1])" class="px-8 py-4 rounded-xl bg-slate-900 text-white font-medium shadow-xl shadow-slate-200 hover:bg-slate-800 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+                                    Explorar os Dados
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Ilustração SVG Customizada -->
+                        <div class="relative card-animate hidden lg:block" style="animation-delay: 300ms;">
+                            <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto drop-shadow-2xl transform hover:scale-105 transition-transform duration-700">
+                                <defs>
+                                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#c4b5fd;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#f472b6;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
+                                <!-- Fundo Abstrato -->
+                                <circle cx="250" cy="250" r="200" fill="url(#grad1)" opacity="0.1" />
+                                <path d="M250,50 C360,50 450,140 450,250 C450,360 360,450 250,450 C140,450 50,360 50,250 C50,140 140,50 250,50 Z" fill="none" stroke="url(#grad1)" stroke-width="2" stroke-dasharray="10,10" opacity="0.5">
+                                    <animateTransform attributeName="transform" type="rotate" from="0 250 250" to="360 250 250" dur="60s" repeatCount="indefinite"/>
+                                </path>
+                                <!-- Elementos de Gráfico -->
+                                <rect x="150" y="250" width="40" height="100" rx="4" fill="#64748b" opacity="0.8">
+                                    <animate attributeName="height" values="100;120;100" dur="4s" repeatCount="indefinite"/>
+                                    <animate attributeName="y" values="250;230;250" dur="4s" repeatCount="indefinite"/>
+                                </rect>
+                                <rect x="210" y="200" width="40" height="150" rx="4" fill="#fb7185">
+                                    <animate attributeName="height" values="150;180;150" dur="4s" repeatCount="indefinite" begin="0.5s"/>
+                                    <animate attributeName="y" values="200;170;200" dur="4s" repeatCount="indefinite" begin="0.5s"/>
+                                </rect>
+                                <rect x="270" y="150" width="40" height="200" rx="4" fill="#8b5cf6">
+                                    <animate attributeName="height" values="200;240;200" dur="4s" repeatCount="indefinite" begin="1s"/>
+                                    <animate attributeName="y" values="150;110;150" dur="4s" repeatCount="indefinite" begin="1s"/>
+                                </rect>
+                                <!-- Símbolo Feminino Estilizado -->
+                                <circle cx="380" cy="120" r="30" fill="white" stroke="#fb7185" stroke-width="6"/>
+                                <line x1="380" y1="150" x2="380" y2="190" stroke="#fb7185" stroke-width="6"/>
+                                <line x1="360" y1="170" x2="400" y2="170" stroke="#fb7185" stroke-width="6"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Grid de Navegação (Como Funciona) -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                        <div onclick="showTab('educacao', document.querySelectorAll('.sidebar-button')[2])" class="nav-card p-6 cursor-pointer group">
+                            <div class="icon-box bg-violet-100 text-violet-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                            </div>
+                            <h3 class="font-bold text-lg text-slate-800 mb-2 group-hover:text-violet-600 transition-colors">Educação</h3>
+                            <p class="text-sm text-slate-600">Analise o paradoxo da qualificação: mulheres estudam mais, mas o retorno salarial não acompanha.</p>
+                        </div>
+
+                        <div onclick="showTab('renda', document.querySelectorAll('.sidebar-button')[3])" class="nav-card p-6 cursor-pointer group">
+                            <div class="icon-box bg-rose-100 text-rose-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                            </div>
+                            <h3 class="font-bold text-lg text-slate-800 mb-2 group-hover:text-rose-600 transition-colors">Trabalho & Renda</h3>
+                            <p class="text-sm text-slate-600">Visualize a disparidade salarial, a taxa de ocupação e a barreira da informalidade.</p>
+                        </div>
+
+                        <div onclick="showTab('poder', document.querySelectorAll('.sidebar-button')[5])" class="nav-card p-6 cursor-pointer group">
+                            <div class="icon-box bg-emerald-100 text-emerald-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m16 16 3-8 3 8c-.8.9-2 1-3 1-1 0-2.1-.1-3-1Z"></path><path d="m2 16 3-8 3 8c-.8.9-2 1-3 1-1 0-2.1-.1-3-1Z"></path><path d="M12 3v18"></path><path d="M7 12h10"></path></svg>
+                            </div>
+                            <h3 class="font-bold text-lg text-slate-800 mb-2 group-hover:text-emerald-600 transition-colors">Poder & Decisão</h3>
+                            <p class="text-sm text-slate-600">Monitore a representatividade feminina nos cargos eletivos e de liderança no estado.</p>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!-- ABA 1: Visão Geral -->
+            <div id="visao-geral" class="tab-panel">
                 <div class="chart-card mb-8 card-animate"> 
-                    <h2 class="text-2xl font-semibold text-slate-800 mb-3">Bem-vindo(a) ao Painel de Disparidade de Gênero</h2>
+                    <h2 class="text-2xl font-semibold text-slate-800 mb-3">Visão Geral dos Indicadores</h2>
                     <p class="text-slate-600 leading-relaxed">
-                        Este dashboard centraliza indicadores-chave que ilustram as diferenças nas esferas de trabalho, renda, educação e vida social entre homens e mulheres no Estado do Rio de Janeiro.
-                        Use o menu ao lado para se aprofundar em cada tema. O objetivo é fornecer dados claros para embasar discussões e a formulação de políticas públicas.
+                        Um panorama consolidado dos principais desafios enfrentados pelas mulheres no Rio de Janeiro, abrangendo renda, trabalho, educação e representatividade política.
                     </p>
                 </div>
 
                 <!-- KPIs Principais -->
-                <h2 class="h2-title card-animate" style="animation-delay: 100ms;">Visão Geral (2022-2025)</h2>
+                <h2 class="h2-title card-animate" style="animation-delay: 100ms;">Destaques (2022-2025)</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     <div class="kpi-card card-animate impact-glow" style="animation-delay: 200ms;">
                         <h3 class="kpi-title">Diferença no Rendimento</h3>
@@ -379,10 +470,11 @@
 
             <!-- Aba 2: Educação -->
             <div id="educacao" class="tab-panel">
+                <!-- (Conteúdo mantido igual ao anterior, só oculto por padrão) -->
                 <h2 class="h2-title card-animate">Educação: O Paradoxo da Qualificação</h2>
                 <p class="text-slate-600 mb-6 card-animate">
                     As mulheres no Rio de Janeiro estudam mais, têm menos analfabetismo e acessam mais o ensino superior. 
-                    Apesar disso, a disparidade salarial persiste, indicando que a educação sozinha não elimina as barreiras de gênero.
+                    Apesar disso, a disparidade salarial persiste.
                 </p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
@@ -392,17 +484,14 @@
                             <div class="flex items-baseline gap-1"><span class="text-2xl font-bold" style="color: var(--color-mulheres);">M:</span><p class="text-2xl font-bold kpi-value-animated" style="color: var(--color-mulheres);" data-value="11.2" data-suffix=" anos">0.0</p></div>
                             <div class="flex items-baseline gap-1"><span class="text-2xl font-bold" style="color: var(--color-homens);">H:</span><p class="text-2xl font-bold kpi-value-animated" style="color: var(--color-homens);" data-value="11.1" data-suffix=" anos">0.0</p></div>
                         </div>
-                        <p class="kpi-subtitle">Dados de 2024 (Mulheres lideram desde 2016)</p>
                     </div>
                     <div class="kpi-card card-animate" style="animation-delay: 200ms;">
                         <h3 class="kpi-title">Frequência Superior (18-24 anos)</h3>
                         <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-positive);" data-value="8.5" data-prefix="+" data-suffix=" p.p.">+0.0 p.p.</p>
-                        <p class="kpi-subtitle">Vantagem feminina no acesso à universidade (2024)</p>
                     </div>
                     <div class="kpi-card card-animate" style="animation-delay: 300ms;">
                         <h3 class="kpi-title">Mulheres com Superior Completo</h3>
                         <p class="kpi-value kpi-value-animated" style="color: var(--color-mulheres);" data-value="1.75" data-suffix=" mi">0 mi</p>
-                        <p class="kpi-subtitle">Crescimento de 57% desde 2016</p>
                     </div>
                     <div class="kpi-card card-animate" style="animation-delay: 400ms;">
                         <h3 class="kpi-title">Mulheres Analfabetas (15+)</h3>
@@ -414,33 +503,52 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                     <div class="chart-card card-animate" style="animation-delay: 400ms;">
                         <h3 class="h3-title">Evolução: Média de Anos de Estudo (15+)</h3>
-                        <div class="h-[300px] relative">
-                            <canvas id="anosEstudoChart"></canvas>
-                        </div>
+                        <div class="h-[300px] relative"><canvas id="anosEstudoChart"></canvas></div>
                     </div>
                     <div class="chart-card card-animate" style="animation-delay: 500ms;">
                         <h3 class="h3-title">Taxa Ajustada Frequência Superior (18-24 anos)</h3>
-                        <div class="h-[300px] relative">
-                            <canvas id="freqSuperiorChart"></canvas>
-                        </div>
+                        <div class="h-[300px] relative"><canvas id="freqSuperiorChart"></canvas></div>
                     </div>
                     <div class="chart-card card-animate" style="animation-delay: 600ms;">
                         <h3 class="h3-title">Evolução do Analfabetismo (15 anos ou mais)</h3>
-                        <div class="h-[300px] relative">
-                            <canvas id="analfabetismoChart"></canvas>
-                        </div>
+                        <div class="h-[300px] relative"><canvas id="analfabetismoChart"></canvas></div>
                     </div>
                     <div class="chart-card card-animate" style="animation-delay: 700ms;">
                         <h3 class="h3-title">Evolução do Nível Superior Completo (Absoluto)</h3>
-                        <div class="h-[300px] relative">
-                            <canvas id="superiorAbsolutoChart"></canvas>
-                        </div>
+                        <div class="h-[300px] relative"><canvas id="superiorAbsolutoChart"></canvas></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Aba 3: Emprego e Renda -->
+            <!-- Aba Saúde (Nova, Placeholder) -->
+            <div id="saude" class="tab-panel">
+                <h2 class="h2-title card-animate">Saúde da Mulher</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="kpi-card card-animate" style="animation-delay: 100ms;">
+                        <h3 class="kpi-title">Dados em Integração</h3>
+                        <p class="kpi-value kpi-value-animated" style="color: var(--color-text-muted);" data-value="0">-</p>
+                    </div>
+                     <a href="https://cisshiny.saude.rj.gov.br/_d/violencia_select/" target="_blank" rel="noopener" class="kpi-card card-animate hover:border-[var(--color-accent)] group block" style="animation-delay: 200ms; cursor: pointer;">
+                        <h3 class="kpi-title group-hover:text-[var(--color-accent)] transition-colors">Painel Saúde RJ</h3>
+                        <p class="kpi-subtitle">Monitoramento de Violência (CIS-RJ)</p>
+                    </a>
+                    <a href="https://observatoriosaudepublica.com.br/" target="_blank" rel="noopener" class="kpi-card card-animate hover:border-[var(--color-accent)] group block" style="animation-delay: 300ms; cursor: pointer;">
+                        <h3 class="kpi-title group-hover:text-[var(--color-accent)] transition-colors">Observatório Saúde</h3>
+                        <p class="kpi-subtitle">Análises de Saúde Pública</p>
+                    </a>
+                </div>
+                <div class="chart-card card-animate text-center py-12" style="animation-delay: 400ms;">
+                    <div class="inline-flex p-4 rounded-full bg-slate-50 mb-4 text-slate-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                    </div>
+                    <h3 class="text-lg font-medium text-slate-700">Área de Indicadores de Saúde</h3>
+                    <p class="text-slate-500 max-w-md mx-auto mt-2">Esta seção está preparada para receber dados de mortalidade materna e exames preventivos.</p>
+                </div>
+            </div>
+
+            <!-- Aba 3: Emprego e Renda (Mantida) -->
             <div id="renda" class="tab-panel">
+                <!-- Conteúdo igual ao anterior -->
                 <h2 class="h2-title card-animate">Emprego e Renda</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <div class="kpi-card card-animate" style="animation-delay: 100ms;">
@@ -460,288 +568,90 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                    <div class="chart-card card-animate" style="animation-delay: 400ms;">
-                        <h3 class="h3-title">Evolução do Rendimento Médio (2023-2025)</h3>
-                        <div class="h-[300px] relative"><canvas id="rendimentoChart"></canvas></div>
-                    </div>
-                    <div class="chart-card card-animate" style="animation-delay: 500ms;">
-                        <h3 class="h3-title">Evolução da Taxa de Ocupação (2023-2025)</h3>
-                        <div class="h-[300px] relative"><canvas id="ocupacaoChart"></canvas></div>
-                    </div>
-                    <div class="chart-card lg:col-span-2 card-animate" style="animation-delay: 600ms;">
-                        <h3 class="h3-title">Evolução da Taxa de Informalidade (2023-2025)</h3>
-                        <div class="h-[300px] relative"><canvas id="informalidadeChart"></canvas></div>
-                    </div>
+                    <div class="chart-card card-animate" style="animation-delay: 400ms;"><h3 class="h3-title">Evolução do Rendimento Médio</h3><div class="h-[300px] relative"><canvas id="rendimentoChart"></canvas></div></div>
+                    <div class="chart-card card-animate" style="animation-delay: 500ms;"><h3 class="h3-title">Evolução da Taxa de Ocupação</h3><div class="h-[300px] relative"><canvas id="ocupacaoChart"></canvas></div></div>
+                    <div class="chart-card lg:col-span-2 card-animate" style="animation-delay: 600ms;"><h3 class="h3-title">Evolução da Taxa de Informalidade</h3><div class="h-[300px] relative"><canvas id="informalidadeChart"></canvas></div></div>
                 </div>
             </div>
             
-            <!-- Aba 4: Dupla Jornada -->
+            <!-- Aba 4: Dupla Jornada (Mantida) -->
             <div id="jornada" class="tab-panel">
                 <h2 class="h2-title card-animate">Dupla Jornada (Afazeres Domésticos)</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div class="kpi-card card-animate" style="animation-delay: 100ms;">
-                        <h3 class="kpi-title">Horas Semanais a Mais (2022)</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-warning);" data-value="7.6" data-prefix="+" data-suffix="h">+0,0h</p>
-                        <p class="kpi-subtitle">Dedicadas por mulheres a afazeres</p>
-                    </div>
-                    <div class="kpi-card card-animate" style="animation-delay: 200ms;">
-                        <h3 class="kpi-title">Taxa de Afazeres (25-49 anos)</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-mulheres);" data-value="94.7" data-suffix="%">0,0%</p>
-                        <p class="kpi-subtitle">vs. 87,7% dos homens (2022)</p>
-                    </div>
-                    <div class="kpi-card card-animate" style="animation-delay: 300ms;">
-                        <h3 class="kpi-title">Taxa de Afazeres (Sup. completo)</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-mulheres);" data-value="92.2" data-suffix="%">0,0%</p>
-                        <p class="kpi-subtitle">vs. 87,2% dos homens (2022)</p>
-                    </div>
+                    <div class="kpi-card card-animate" style="animation-delay: 100ms;"><h3 class="kpi-title">Horas Semanais a Mais (2022)</h3><p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-warning);" data-value="7.6" data-prefix="+" data-suffix="h">+0,0h</p></div>
+                    <div class="kpi-card card-animate" style="animation-delay: 200ms;"><h3 class="kpi-title">Taxa de Afazeres (25-49 anos)</h3><p class="kpi-value kpi-value-animated" style="color: var(--color-mulheres);" data-value="94.7" data-suffix="%">0,0%</p></div>
+                    <div class="kpi-card card-animate" style="animation-delay: 300ms;"><h3 class="kpi-title">Taxa de Afazeres (Sup. completo)</h3><p class="kpi-value kpi-value-animated" style="color: var(--color-mulheres);" data-value="92.2" data-suffix="%">0,0%</p></div>
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-                    <div class="chart-card lg:col-span-3 card-animate" style="animation-delay: 400ms;">
-                        <h3 class="h3-title">Horas Semanais em Afazeres (2018-2022)</h3>
-                        <div class="h-[300px] relative"><canvas id="afazeresChart"></canvas></div>
-                    </div>
-                    <div class="chart-card card-animate" style="animation-delay: 500ms;">
-                        <h3 class="h3-title">Taxa de Afazeres por Instrução (2022)</h3>
-                        <div class="h-[300px] relative"><canvas id="instrucaoChart"></canvas></div>
-                    </div>
-                    <div class="chart-card card-animate" style="animation-delay: 600ms;">
-                        <h3 class="h3-title">Taxa de Afazeres por Idade (2022)</h3>
-                        <div class="h-[300px] relative"><canvas id="idadeChart"></canvas></div>
-                    </div>
+                    <div class="chart-card lg:col-span-3 card-animate" style="animation-delay: 400ms;"><h3 class="h3-title">Horas Semanais em Afazeres</h3><div class="h-[300px] relative"><canvas id="afazeresChart"></canvas></div></div>
+                    <div class="chart-card card-animate" style="animation-delay: 500ms;"><h3 class="h3-title">Taxa de Afazeres por Instrução</h3><div class="h-[300px] relative"><canvas id="instrucaoChart"></canvas></div></div>
+                    <div class="chart-card card-animate" style="animation-delay: 600ms;"><h3 class="h3-title">Taxa de Afazeres por Idade</h3><div class="h-[300px] relative"><canvas id="idadeChart"></canvas></div></div>
                 </div>
             </div>
             
-            <!-- Aba 5: Poder Público (Cargos Eletivos) -->
+            <!-- Aba 5: Poder Público (Mantida) -->
             <div id="poder" class="tab-panel">
                 <h2 class="h2-title card-animate">Representação Política (Cargos Eletivos)</h2>
-                
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div class="kpi-card card-animate" style="animation-delay: 100ms;">
-                        <h3 class="kpi-title">Mulheres no Executivo RJ</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);" data-value="20.6" data-suffix="%">0,0%</p>
-                        <p class="kpi-subtitle">7 de 34 cargos (2025)</p>
-                    </div>
-                    <div class="kpi-card card-animate" style="animation-delay: 200ms;">
-                        <h3 class="kpi-title">Mulheres na ALERJ</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);" data-value="22.9" data-suffix="%">0,0%</p>
-                        <p class="kpi-subtitle">16 de 70 deputadas (2025)</p>
-                    </div>
-                    <div class="kpi-card card-animate" style="animation-delay: 300ms;">
-                        <h3 class="kpi-title">Mulheres no TJRJ</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-warning);" data-value="41.2" data-suffix="%">0,0%</p>
-                        <p class="kpi-subtitle">77 de 187 desembargadores(as) (2025)</p>
-                    </div>
-                     <div class="kpi-card card-animate" style="animation-delay: 400ms;">
-                        <h3 class="kpi-title">Mulheres em Prefeituras</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);" data-value="15.2" data-suffix="%">0,0%</p>
-                        <p class="kpi-subtitle">14 de 92 prefeitas (2025)</p>
-                    </div>
+                    <div class="kpi-card card-animate" style="animation-delay: 100ms;"><h3 class="kpi-title">Mulheres no Executivo RJ</h3><p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);" data-value="20.6" data-suffix="%">0,0%</p></div>
+                    <div class="kpi-card card-animate" style="animation-delay: 200ms;"><h3 class="kpi-title">Mulheres na ALERJ</h3><p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);" data-value="22.9" data-suffix="%">0,0%</p></div>
+                    <div class="kpi-card card-animate" style="animation-delay: 300ms;"><h3 class="kpi-title">Mulheres no TJRJ</h3><p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-warning);" data-value="41.2" data-suffix="%">0,0%</p></div>
+                    <div class="kpi-card card-animate" style="animation-delay: 400ms;"><h3 class="kpi-title">Mulheres em Prefeituras</h3><p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);" data-value="15.2" data-suffix="%">0,0%</p></div>
                 </div>
-                
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
-                    <div class="chart-card card-animate" style="animation-delay: 500ms;">
-                        <h3 class="h3-title text-center">Evolução Executivo RJ (2021 vs 2025)</h3>
-                        <div class="h-[350px] relative"><canvas id="executivoChart"></canvas></div>
-                    </div>
-                    <div class="chart-card card-animate" style="animation-delay: 600ms;">
-                        <h3 class="h3-title text-center">Evolução ALERJ (2021 vs 2025)</h3>
-                        <div class="h-[350px] relative"><canvas id="alerjChart"></canvas></div>
-                    </div>
-                    <div class="chart-card card-animate" style="animation-delay: 700ms;">
-                        <h3 class="h3-title text-center">Evolução Prefeituras (2021 vs 2025)</h3>
-                        <div class="h-[350px] relative"><canvas id="prefeiturasChart"></canvas></div>
-                    </div>
-                    <div class="chart-card card-animate" style="animation-delay: 800ms;">
-                        <h3 class="h3-title text-center">Composição TJRJ (2025)</h3>
-                        <div class="h-[350px] relative"><canvas id="tjrjChart"></canvas></div>
-                    </div>
+                    <div class="chart-card card-animate" style="animation-delay: 500ms;"><h3 class="h3-title text-center">Evolução Executivo RJ</h3><div class="h-[350px] relative"><canvas id="executivoChart"></canvas></div></div>
+                    <div class="chart-card card-animate" style="animation-delay: 600ms;"><h3 class="h3-title text-center">Evolução ALERJ</h3><div class="h-[350px] relative"><canvas id="alerjChart"></canvas></div></div>
+                    <div class="chart-card card-animate" style="animation-delay: 700ms;"><h3 class="h3-title text-center">Evolução Prefeituras</h3><div class="h-[350px] relative"><canvas id="prefeiturasChart"></canvas></div></div>
+                    <div class="chart-card card-animate" style="animation-delay: 800ms;"><h3 class="h3-title text-center">Composição TJRJ (2025)</h3><div class="h-[350px] relative"><canvas id="tjrjChart"></canvas></div></div>
                 </div>
             </div>
             
-            <!-- Aba 6: Liderança e Gestão (Atualizada) -->
+            <!-- Aba 6: Liderança e Gestão (Mantida) -->
             <div id="lideranca" class="tab-panel">
                 <h2 class="h2-title card-animate">Liderança e Gestão Pública (Série Histórica)</h2>
-                <p class="text-slate-600 mb-6 card-animate">
-                    Análise da representatividade em cargos de alto escalão administrativo e o "gap" salarial em posições de chefia.
-                </p>
-                
-                <!-- SUBSTITUÍDO: KPI por Gráfico de Linha -->
                 <div class="grid grid-cols-1 gap-6 mb-8">
                      <div class="chart-card card-animate" style="animation-delay: 100ms;">
-                        <h3 class="h3-title">Evolução do Gap Salarial na Gestão (Diferença Homem - Mulher)</h3>
+                        <h3 class="h3-title">Evolução do Gap Salarial na Gestão</h3>
                         <div class="h-[250px] relative"><canvas id="gapChefiaChart"></canvas></div>
                         <p class="text-xs text-slate-400 mt-2">Diferença em Reais (R$) a favor dos homens em cargos gerenciais no RJ.</p>
                     </div>
                 </div>
-
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <!-- Gráfico 1: Ministérios e Câmara -->
-                    <div class="chart-card card-animate" style="animation-delay: 200ms;">
-                        <h3 class="h3-title">Evolução da Representatividade Feminina (%)</h3>
-                        <div class="h-[300px] relative"><canvas id="historicoPoliticoChart"></canvas></div>
-                    </div>
-
-                    <!-- Gráfico 2: Cargos Gerenciais RJ -->
-                    <div class="chart-card card-animate" style="animation-delay: 300ms;">
-                        <h3 class="h3-title">Proporção em Cargos Gerenciais - RJ (%)</h3>
-                        <div class="h-[300px] relative"><canvas id="historicoGerencialChart"></canvas></div>
-                    </div>
-
-                    <!-- Gráfico 3: Rendimento Gestão -->
-                    <div class="chart-card lg:col-span-2 card-animate" style="animation-delay: 400ms;">
-                        <h3 class="h3-title">Rendimento Médio em Cargos de Gestão - RJ (R$)</h3>
-                        <div class="h-[300px] relative"><canvas id="historicoRendaGestaoChart"></canvas></div>
-                    </div>
+                    <div class="chart-card card-animate" style="animation-delay: 200ms;"><h3 class="h3-title">Evolução da Representatividade Feminina (%)</h3><div class="h-[300px] relative"><canvas id="historicoPoliticoChart"></canvas></div></div>
+                    <div class="chart-card card-animate" style="animation-delay: 300ms;"><h3 class="h3-title">Proporção em Cargos Gerenciais - RJ (%)</h3><div class="h-[300px] relative"><canvas id="historicoGerencialChart"></canvas></div></div>
+                    <div class="chart-card lg:col-span-2 card-animate" style="animation-delay: 400ms;"><h3 class="h3-title">Rendimento Médio em Cargos de Gestão - RJ (R$)</h3><div class="h-[300px] relative"><canvas id="historicoRendaGestaoChart"></canvas></div></div>
                 </div>
             </div>
 
-            <!-- Aba 7: Mapa Político -->
+            <!-- Aba 7: Mapa Político (Mantido) -->
             <div id="mapa" class="tab-panel">
                 <h2 class="h2-title card-animate">Mapa Político: Prefeituras RJ (2025)</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div class="kpi-card card-animate" style="animation-delay: 100ms;">
-                        <h3 class="kpi-title">Total de Prefeituras</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-text-primary);" data-value="92">0</p>
-                        <p class="kpi-subtitle">Municípios no RJ</p>
-                    </div>
-                    <div class="kpi-card card-animate" style="animation-delay: 200ms;">
-                        <h3 class="kpi-title">Prefeitas Mulheres</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-mulheres);" data-value="14">0</p>
-                        <p class="kpi-subtitle">vs. 78 Prefeitos Homens</p>
-                    </div>
-                    <div class="kpi-card card-animate" style="animation-delay: 300ms;">
-                        <h3 class="kpi-title">% de Mulheres no Executivo</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);" data-value="15.2" data-suffix="%">0,0%</p>
-                        <p class="kpi-subtitle">Ocupando prefeituras em 2025</p>
-                    </div>
+                    <div class="kpi-card card-animate" style="animation-delay: 100ms;"><h3 class="kpi-title">Total de Prefeituras</h3><p class="kpi-value kpi-value-animated" style="color: var(--color-text-primary);" data-value="92">0</p></div>
+                    <div class="kpi-card card-animate" style="animation-delay: 200ms;"><h3 class="kpi-title">Prefeitas Mulheres</h3><p class="kpi-value kpi-value-animated" style="color: var(--color-mulheres);" data-value="14">0</p></div>
+                    <div class="kpi-card card-animate" style="animation-delay: 300ms;"><h3 class="kpi-title">% de Mulheres no Executivo</h3><p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);" data-value="15.2" data-suffix="%">0,0%</p></div>
                 </div>
                 <div class="chart-card card-animate" style="animation-delay: 400ms;">
                     <h3 class="h3-title">Distribuição de Gênero nas Prefeituras do RJ</h3>
-                    <div id="map_chart_div" class="w-full min-h-[500px] md:min-h-[650px] relative z-0">
-                        <div class="flex items-center justify-center h-full text-slate-500">Carregando mapa...</div>
-                    </div>
+                    <div id="map_chart_div" class="w-full min-h-[500px] md:min-h-[650px] relative z-0"><div class="flex items-center justify-center h-full text-slate-500">Carregando mapa...</div></div>
                 </div>
             </div>
             
-            <!-- NOVO: Aba 8: Outros Painéis (Renomeada) -->
+            <!-- Aba 8: Outros Painéis (Mantida) -->
             <div id="fontes" class="tab-panel">
                  <div class="chart-card mb-8 card-animate"> 
                     <h2 class="text-2xl font-semibold text-slate-800 mb-3">Acesse Outros Portais de Monitoramento</h2>
-                    <p class="text-slate-600 leading-relaxed">
-                        Abaixo você encontra links para outros painéis e relatórios oficiais que complementam a análise sobre a situação da mulher no Rio de Janeiro e no Brasil.
-                    </p>
+                    <p class="text-slate-600 leading-relaxed">Links para outros painéis e relatórios oficiais.</p>
                 </div>
-
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center card-animate" style="animation-delay: 100ms;">
-                    
-                    <!-- Card 1: ISP Mulher -->
-                    <a href="https://www.ispconecta.rj.gov.br/ispmulher/" target="_blank" rel="noopener" class="group relative block w-full max-w-[320px] rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[var(--color-accent)] transition-all duration-300">
-                        <div class="p-5 flex flex-col h-full">
-                            <div class="flex items-start gap-3">
-                                <div class="shrink-0 rounded-lg p-3" style="background-color: rgba(139, 92, 246, 0.1); color: var(--color-accent);">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"></line><line x1="12" x2="12" y1="20" y2="4"></line><line x1="6" x2="6" y1="20" y2="14"></line></svg>
-                                </div>
-                                <div class="min-w-0">
-                                    <h3 class="font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">Painel Mulher (ISP)</h3>
-                                    <p class="text-sm mt-1 text-gray-600">Visualização interativa sobre violência contra a mulher no RJ.</p>
-                                </div>
-                            </div>
-                            <span class="mt-auto inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)] pt-4 group-hover:translate-x-1 transition-transform">
-                                Acessar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-                            </span>
-                        </div>
-                    </a>
-
-                    <!-- Card 2: Dossiê Mulher -->
-                    <a href="https://ispconecta.rj.gov.br/dossie_mulher/" target="_blank" rel="noopener" class="group relative block w-full max-w-[320px] rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[var(--color-accent)] transition-all duration-300">
-                        <div class="p-5 flex flex-col h-full">
-                            <div class="flex items-start gap-3">
-                                <div class="shrink-0 rounded-lg p-3" style="background-color: rgba(139, 92, 246, 0.1); color: var(--color-accent);">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M8 18v-2"></path><path d="M12 18v-4"></path><path d="M16 18v-6"></path></svg>
-                                </div>
-                                <div class="min-w-0">
-                                    <h3 class="font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">Dossiê Mulher</h3>
-                                    <p class="text-sm mt-1 text-gray-600">Estudos e relatórios completos com análises aprofundadas.</p>
-                                </div>
-                            </div>
-                            <span class="mt-auto inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)] pt-4 group-hover:translate-x-1 transition-transform">
-                                Acessar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-                            </span>
-                        </div>
-                    </a>
-
-                    <!-- Card 3: Saúde -->
-                    <a href="https://cisshiny.saude.rj.gov.br/_d/violencia_select/" target="_blank" rel="noopener" class="group relative block w-full max-w-[320px] rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[var(--color-accent)] transition-all duration-300">
-                        <div class="p-5 flex flex-col h-full">
-                            <div class="flex items-start gap-3">
-                                <div class="shrink-0 rounded-lg p-3" style="background-color: rgba(139, 92, 246, 0.1); color: var(--color-accent);">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
-                                </div>
-                                <div class="min-w-0">
-                                    <h3 class="font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">Saúde RJ</h3>
-                                    <p class="text-sm mt-1 text-gray-600">Informações e materiais de saúde pública relacionados à temática.</p>
-                                </div>
-                            </div>
-                            <span class="mt-auto inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)] pt-4 group-hover:translate-x-1 transition-transform">
-                                Acessar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-                            </span>
-                        </div>
-                    </a>
-
-                    <!-- Card 4: Ministério da Justiça -->
-                    <a href="https://app.powerbi.com/view?r=eyJrIjoiZWUwOWJhYmYtZjAzNi00ZmRkLWJlZmMtODQ3NjdlZmZjNTZlIiwidCI6ImViMDkwNDIwLTQ0NGMtNDNmNy05MWYyLTRiOGRhNmJmZThlMSJ9" target="_blank" rel="noopener" class="group relative block w-full max-w-[320px] rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[var(--color-accent)] transition-all duration-300">
-                        <div class="p-5 flex flex-col h-full">
-                            <div class="flex items-start gap-3">
-                                <div class="shrink-0 rounded-lg p-3" style="background-color: rgba(139, 92, 246, 0.1); color: var(--color-accent);">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="M7 21h10"></path><path d="M12 3v18"></path><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path></svg>
-                                </div>
-                                <div class="min-w-0">
-                                    <h3 class="font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">Ministério da Justiça</h3>
-                                    <p class="text-sm mt-1 text-gray-600">Painel público federal com indicadores de violência contra a mulher.</p>
-                                </div>
-                            </div>
-                            <span class="mt-auto inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)] pt-4 group-hover:translate-x-1 transition-transform">
-                                Acessar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-                            </span>
-                        </div>
-                    </a>
-
-                    <!-- Card 5: TJRJ -->
-                    <a href="https://app.powerbi.com/view?r=eyJrIjoiMjI3OTY1ZDMtMTYyMS00ZDIzLThjMGYtMGMyZDFiYjk0MWIyIiwidCI6ImNlNGUxMTY0LTk4NmYtNDEzMi04NWQxLTFlM2MxN2NmN2Q2ZSIsImMiOjR9" target="_blank" rel="noopener" class="group relative block w-full max-w-[320px] rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[var(--color-accent)] transition-all duration-300">
-                        <div class="p-5 flex flex-col h-full">
-                            <div class="flex items-start gap-3">
-                                <div class="shrink-0 rounded-lg p-3" style="background-color: rgba(139, 92, 246, 0.1); color: var(--color-accent);">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 18v-7"></path><path d="M11.12 2.198a2 2 0 0 1 1.76.006l7.866 3.847c.476.233.31.949-.22.949H3.474c-.53 0-.695-.716-.22-.949z"></path><path d="M14 18v-7"></path><path d="M18 18v-7"></path><path d="M3 22h18"></path><path d="M6 18v-7"></path></svg>
-                                </div>
-                                <div class="min-w-0">
-                                    <h3 class="font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">Tribunal de Justiça (RJ)</h3>
-                                    <p class="text-sm mt-1 text-gray-600">Painel oficial do TJRJ com dados judiciais e monitoramento.</p>
-                                </div>
-                            </div>
-                            <span class="mt-auto inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)] pt-4 group-hover:translate-x-1 transition-transform">
-                                Acessar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-                            </span>
-                        </div>
-                    </a>
-
-                    <!-- Card 6: CNJ -->
-                    <a href="https://www.cnj.jus.br/programas-e-acoes/violencia-contra-a-mulher/painel-da-violencia-domestica/" target="_blank" rel="noopener" class="group relative block w-full max-w-[320px] rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[var(--color-accent)] transition-all duration-300">
-                        <div class="p-5 flex flex-col h-full">
-                            <div class="flex items-start gap-3">
-                                <div class="shrink-0 rounded-lg p-3" style="background-color: rgba(139, 92, 246, 0.1); color: var(--color-accent);">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>
-                                </div>
-                                <div class="min-w-0">
-                                    <h3 class="font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">CNJ - Violência Doméstica</h3>
-                                    <p class="text-sm mt-1 text-gray-600">Painel nacional do Conselho Nacional de Justiça.</p>
-                                </div>
-                            </div>
-                            <span class="mt-auto inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)] pt-4 group-hover:translate-x-1 transition-transform">
-                                Acessar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-                            </span>
-                        </div>
-                    </a>
-
+                    <!-- Cards dos outros painéis (HTML mantido do passo anterior) -->
+                    <a href="https://www.ispconecta.rj.gov.br/ispmulher/" target="_blank" rel="noopener" class="group relative block w-full max-w-[320px] rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[var(--color-accent)] transition-all duration-300"><div class="p-5 flex flex-col h-full"><div class="flex items-start gap-3"><div class="shrink-0 rounded-lg p-3" style="background-color: rgba(139, 92, 246, 0.1); color: var(--color-accent);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" x2="18" y1="20" y2="10"></line><line x1="12" x2="12" y1="20" y2="4"></line><line x1="6" x2="6" y1="20" y2="14"></line></svg></div><div class="min-w-0"><h3 class="font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">Painel Mulher (ISP)</h3><p class="text-sm mt-1 text-gray-600">Violência contra a mulher no RJ.</p></div></div><span class="mt-auto inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)] pt-4 group-hover:translate-x-1 transition-transform">Acessar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span></div></a>
+                    <a href="https://ispconecta.rj.gov.br/dossie_mulher/" target="_blank" rel="noopener" class="group relative block w-full max-w-[320px] rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[var(--color-accent)] transition-all duration-300"><div class="p-5 flex flex-col h-full"><div class="flex items-start gap-3"><div class="shrink-0 rounded-lg p-3" style="background-color: rgba(139, 92, 246, 0.1); color: var(--color-accent);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M8 18v-2"></path><path d="M12 18v-4"></path><path d="M16 18v-6"></path></svg></div><div class="min-w-0"><h3 class="font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">Dossiê Mulher</h3><p class="text-sm mt-1 text-gray-600">Estudos e relatórios.</p></div></div><span class="mt-auto inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)] pt-4 group-hover:translate-x-1 transition-transform">Acessar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span></div></a>
+                    <a href="https://cisshiny.saude.rj.gov.br/_d/violencia_select/" target="_blank" rel="noopener" class="group relative block w-full max-w-[320px] rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[var(--color-accent)] transition-all duration-300"><div class="p-5 flex flex-col h-full"><div class="flex items-start gap-3"><div class="shrink-0 rounded-lg p-3" style="background-color: rgba(139, 92, 246, 0.1); color: var(--color-accent);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg></div><div class="min-w-0"><h3 class="font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">Saúde RJ</h3><p class="text-sm mt-1 text-gray-600">Materiais de saúde pública.</p></div></div><span class="mt-auto inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)] pt-4 group-hover:translate-x-1 transition-transform">Acessar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span></div></a>
+                    <a href="https://app.powerbi.com/view?r=eyJrIjoiZWUwOWJhYmYtZjAzNi00ZmRkLWJlZmMtODQ3NjdlZmZjNTZlIiwidCI6ImViMDkwNDIwLTQ0NGMtNDNmNy05MWYyLTRiOGRhNmJmZThlMSJ9" target="_blank" rel="noopener" class="group relative block w-full max-w-[320px] rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[var(--color-accent)] transition-all duration-300"><div class="p-5 flex flex-col h-full"><div class="flex items-start gap-3"><div class="shrink-0 rounded-lg p-3" style="background-color: rgba(139, 92, 246, 0.1); color: var(--color-accent);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="M7 21h10"></path><path d="M12 3v18"></path><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path></svg></div><div class="min-w-0"><h3 class="font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">Ministério da Justiça</h3><p class="text-sm mt-1 text-gray-600">Violência contra a mulher.</p></div></div><span class="mt-auto inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)] pt-4 group-hover:translate-x-1 transition-transform">Acessar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span></div></a>
+                    <a href="https://app.powerbi.com/view?r=eyJrIjoiMjI3OTY1ZDMtMTYyMS00ZDIzLThjMGYtMGMyZDFiYjk0MWIyIiwidCI6ImNlNGUxMTY0LTk4NmYtNDEzMi04NWQxLTFlM2MxN2NmN2Q2ZSIsImMiOjR9" target="_blank" rel="noopener" class="group relative block w-full max-w-[320px] rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[var(--color-accent)] transition-all duration-300"><div class="p-5 flex flex-col h-full"><div class="flex items-start gap-3"><div class="shrink-0 rounded-lg p-3" style="background-color: rgba(139, 92, 246, 0.1); color: var(--color-accent);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 18v-7"></path><path d="M11.12 2.198a2 2 0 0 1 1.76.006l7.866 3.847c.476.233.31.949-.22.949H3.474c-.53 0-.695-.716-.22-.949z"></path><path d="M14 18v-7"></path><path d="M18 18v-7"></path><path d="M3 22h18"></path><path d="M6 18v-7"></path></svg></div><div class="min-w-0"><h3 class="font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">Tribunal de Justiça (RJ)</h3><p class="text-sm mt-1 text-gray-600">Dados judiciais.</p></div></div><span class="mt-auto inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)] pt-4 group-hover:translate-x-1 transition-transform">Acessar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span></div></a>
+                    <a href="https://www.cnj.jus.br/programas-e-acoes/violencia-contra-a-mulher/painel-da-violencia-domestica/" target="_blank" rel="noopener" class="group relative block w-full max-w-[320px] rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[var(--color-accent)] transition-all duration-300"><div class="p-5 flex flex-col h-full"><div class="flex items-start gap-3"><div class="shrink-0 rounded-lg p-3" style="background-color: rgba(139, 92, 246, 0.1); color: var(--color-accent);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg></div><div class="min-w-0"><h3 class="font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">CNJ - Violência</h3><p class="text-sm mt-1 text-gray-600">Painel nacional.</p></div></div><span class="mt-auto inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)] pt-4 group-hover:translate-x-1 transition-transform">Acessar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span></div></a>
+                    <a href="https://observatoriosaudepublica.com.br/" target="_blank" rel="noopener" class="group relative block w-full max-w-[320px] rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[var(--color-accent)] transition-all duration-300"><div class="p-5 flex flex-col h-full"><div class="flex items-start gap-3"><div class="shrink-0 rounded-lg p-3" style="background-color: rgba(139, 92, 246, 0.1); color: var(--color-accent);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg></div><div class="min-w-0"><h3 class="font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">Observatório Saúde</h3><p class="text-sm mt-1 text-gray-600">Análises de Saúde Pública.</p></div></div><span class="mt-auto inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)] pt-4 group-hover:translate-x-1 transition-transform">Acessar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span></div></a>
                 </div>
             </div>
 
@@ -821,7 +731,7 @@
                 }
             });
             
-            // --- ATUALIZAÇÃO: Lógica do Rodapé Dinâmico ---
+            // Rodapé Dinâmico
             const footer = document.getElementById('dynamic-footer');
             if (footer) {
                 if (tabId === 'poder') {
@@ -830,7 +740,6 @@
                     footer.innerHTML = "Fonte: Instituto Brasileiro de Geografia e Estatistica - IBGE";
                 }
             }
-            // -----------------------------------------------
 
             if (tabId === 'renda') createRendaCharts();
             else if (tabId === 'jornada') createJornadaCharts();
@@ -838,6 +747,7 @@
             else if (tabId === 'lideranca') createLiderancaCharts();
             else if (tabId === 'educacao') createEducacaoCharts();
             else if (tabId === 'mapa') createMapaChart();
+            else if (tabId === 'saude') createSaudeCharts(); // Placeholder
             else if (tabId === 'inicio') createInicioCharts();
             
             setTimeout(() => triggerAnimations(targetPanel), 100);
@@ -926,6 +836,11 @@
                     tabelaBody.appendChild(tr);
                 });
             }
+        }
+
+        // --- Placeholder Charts for Health Tab ---
+        function createSaudeCharts() {
+             // Currently no charts to create, but function needed for tab switch logic
         }
 
         // --- Gráficos da Aba Educação ---
