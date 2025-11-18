@@ -8,16 +8,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- 2. Carrega o Chart.js (biblioteca de gráficos) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
-    <!-- NOVO: 2.1. Carrega o Google Charts (para o mapa) -->
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    
+    <!-- 3. Carrega o Leaflet CSS e JS (Substituindo Google Charts) -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     
     <!-- =================================================== -->
-    <!-- 3. Fontes e Estilos Visuais Personalizados          -->
+    <!-- 4. Fontes e Estilos Visuais Personalizados          -->
     <!-- =================================================== -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,163 +22,112 @@
     <style>
         /* --- Definição da Paleta de Cores Centralizada (TEMA LIGHT LILÁS) --- */
         :root {
-            /* Cores de Gênero (Mantidas para Destaque) */
-            --color-mulheres: #fb7185; /* rose-400 (cor de destaque) */
+            /* Cores de Gênero */
+            --color-mulheres: #fb7185; /* rose-400 */
             --color-mulheres-border: #f43f5e; /* rose-500 */
-            --color-homens: #64748b; /* slate-500 (neutro e sofisticado) */
+            --color-homens: #64748b; /* slate-500 */
             --color-homens-border: #475569; /* slate-600 */
             
-            /* Cores do Tema (ATUALIZADO PARA LIGHT LILÁS) */
-            --color-accent: #8b5cf6; /* ATUALIZADO: violet-500 */
-            --color-accent-shadow: rgba(139, 92, 246, 0.3); /* ATUALIZADO: Sombra violeta */
-            --color-bg-body: #f5f3ff; /* ATUALIZADO: violet-50 (Fundo lilás bem suave) */
-            --color-bg-sidebar: #ffffff; /* white */
-            --color-bg-card: #ffffff; /* white */
-            --color-border-card: #ede9fe; /* ATUALIZADO: violet-100 (Borda lilás sutil) */
-            --color-border-divider: #ddd6fe; /* ATUALIZADO: violet-200 (Divisor lilás) */
+            /* Cores do Tema (LIGHT LILÁS) */
+            --color-accent: #8b5cf6; /* violet-500 */
+            --color-accent-shadow: rgba(139, 92, 246, 0.3); 
+            --color-bg-body: #f5f3ff; /* violet-50 */
+            --color-bg-sidebar: #ffffff; 
+            --color-bg-card: #ffffff; 
+            --color-border-card: #ede9fe; /* violet-100 */
+            --color-border-divider: #ddd6fe; /* violet-200 */
 
-            /* Cores de Texto (Mantidas) */
-            --color-text-primary: #1e293b; /* slate-800 (Texto principal escuro) */
-            --color-text-secondary: #475569; /* slate-600 (Texto secundário) */
-            --color-text-tertiary: #64748b; /* slate-500 (Texto terciário) */
-            --color-text-muted: #94a3b8; /* slate-400 (Texto mudo) */
+            /* Cores de Texto */
+            --color-text-primary: #1e293b; /* slate-800 */
+            --color-text-secondary: #475569; /* slate-600 */
+            --color-text-tertiary: #64748b; /* slate-500 */
+            --color-text-muted: #94a3b8; /* slate-400 */
             
-            /* Cores de KPI (Mantidas) */
+            /* Cores de KPI */
             --color-kpi-negative: #ef4444; /* red-500 */
+            --color-kpi-positive: #10b981; /* emerald-500 */
             --color-kpi-warning: #f59e0b; /* amber-500 */
         }
         
         /* --- Estilo base --- */
         body {
-            font-family: 'Poppins', sans-serif; /* ATUALIZADO */
+            font-family: 'Poppins', sans-serif;
             background-color: var(--color-bg-body);
-            color: var(--color-text-secondary); /* COR PADRÃO ATUALIZADA */
-            /* overflow: hidden; REMOVIDO PARA PERMITIR SCROLL MOBILE */
+            color: var(--color-text-secondary);
         }
 
-        /* --- Estilos para a Nova Navegação (Sidebar) --- */
+        /* --- Estilos para a Sidebar --- */
         .sidebar-button {
-            display: flex; /* MUDADO */
-            align-items: center; /* NOVO */
-            gap: 0.75rem; /* NOVO */
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
             width: 100%;
             text-align: left;
             transition: all 0.3s ease;
             cursor: pointer;
-            padding: 0.75rem 1.5rem; /* py-3 px-6 */
+            padding: 0.75rem 1.5rem;
             border-left: 4px solid transparent;
             color: var(--color-text-tertiary);
-            font-size: 0.95rem; /* text-sm/base */
-            font-weight: 500; /* font-medium */
-            border-radius: 0.5rem; /* rounded-lg */
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-radius: 0.5rem;
         }
         .sidebar-button:hover {
             color: var(--color-text-primary);
-            background-color: rgba(0, 0, 0, 0.03); /* Hover sutil escuro */
+            background-color: rgba(0, 0, 0, 0.03);
         }
         .active-tab {
-            border-left-color: var(--color-accent); /* Cor de destaque (Lilás) */
-            color: var(--color-accent); /* ATUALIZADO: Texto ativo fica lilás */
-            font-weight: 600; /* font-semibold */
-            background-color: rgba(139, 92, 246, 0.05); /* ATUALIZADO: Fundo lilás sutil */
+            border-left-color: var(--color-accent);
+            color: var(--color-accent);
+            font-weight: 600;
+            background-color: rgba(139, 92, 246, 0.05);
         }
-        
-        /* NOVO: Estilo para os ícones da sidebar */
         .sidebar-button svg {
-            width: 1.25rem; /* w-5 */
-            height: 1.25rem; /* h-5 */
-            flex-shrink: 0;
-            stroke: currentColor; 
-            stroke-width: 2;
-            fill: none;
+            width: 1.25rem; height: 1.25rem; flex-shrink: 0;
+            stroke: currentColor; stroke-width: 2; fill: none;
             transition: all 0.3s ease;
         }
         .active-tab svg {
-            /* Ícone ativo ganha a cor de destaque e um preenchimento sutil */
             fill: var(--color-accent-shadow);
             stroke: var(--color-accent);
         }
 
-        /* --- Estilos Padronizados para Cards --- */
+        /* --- Estilos para Cards --- */
         .kpi-card, .chart-card {
             background-color: var(--color-bg-card);
             border: 1px solid var(--color-border-card);
-            border-radius: 0.75rem; /* rounded-xl */
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
-            padding: 1.5rem; /* p-6 */
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1.5rem;
             transition: all 0.3s ease-in-out;
         }
-        
         .kpi-card:hover {
-            transform: translateY(-5px); /* Animação de subida */
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.04), 0 0 20px var(--color-accent-shadow); /* Sombra + Glow (ATUALIZADO) */
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.04), 0 0 20px var(--color-accent-shadow);
         }
         
-        /* --- Ajustes de Tipografia --- */
-        .h1-title {
-            font-size: 1.75rem; /* text-3xl */
-            font-weight: 800; /* font-extrabold */
-            color: var(--color-text-primary);
-            letter-spacing: -0.025em; /* tracking-tight */
-        }
-        .h2-title {
-            font-size: 1.875rem; /* text-3xl */
-            font-weight: 700; /* font-bold */
-            color: var(--color-text-primary);
-            letter-spacing: -0.025em; /* tracking-tight */
-            margin-bottom: 1.5rem; /* mb-6 */
-        }
-        .h3-title {
-            font-size: 1.25rem; /* text-xl */
-            font-weight: 600; /* font-semibold */
-            color: var(--color-text-secondary);
-            margin-bottom: 1rem; /* mb-4 */
-        }
+        /* --- Tipografia --- */
+        .h1-title { font-size: 1.75rem; font-weight: 800; color: var(--color-text-primary); letter-spacing: -0.025em; }
+        .h2-title { font-size: 1.875rem; font-weight: 700; color: var(--color-text-primary); letter-spacing: -0.025em; margin-bottom: 1.5rem; }
+        .h3-title { font-size: 1.25rem; font-weight: 600; color: var(--color-text-secondary); margin-bottom: 1rem; }
+        .kpi-title { font-size: 0.875rem; font-weight: 500; color: var(--color-text-tertiary); margin-bottom: 0.5rem; }
+        .kpi-value { font-size: 2.25rem; font-weight: 700; }
+        .kpi-subtitle { font-size: 0.75rem; color: var(--color-text-muted); margin-top: 0.25rem; }
+
+        /* --- Animações --- */
+        .kpi-value-animated { font-variant-numeric: tabular-nums; }
+        .tab-panel { transition: opacity 0.4s ease-in-out; }
+        .tab-panel:not(.active-panel) { opacity: 0; display: none; }
         
-        /* --- Estilos de KPI --- */
-        .kpi-title {
-            font-size: 0.875rem; /* text-sm */
-            font-weight: 500; /* font-medium */
-            color: var(--color-text-tertiary);
-            margin-bottom: 0.5rem; /* mb-2 */
-        }
-        .kpi-value {
-            font-size: 2.25rem; /* text-4xl */
-            font-weight: 700; /* font-bold */
-        }
-        .kpi-subtitle {
-            font-size: 0.75rem; /* text-xs */
-            color: var(--color-text-muted);
-            margin-top: 0.25rem; /* mt-1 */
-        }
-
-        /* --- ESTILOS "VIVOS" E "IMPACTANTES" --- */
-        
-        /* 1. Animação de "Contagem" para KPIs */
-        .kpi-value-animated {
-            font-variant-numeric: tabular-nums; /* Evita que os números "pulem" */
-        }
-
-        /* 2. Animação de "Fade-in" para os painéis */
-        .tab-panel {
-            transition: opacity 0.4s ease-in-out;
-        }
-        .tab-panel:not(.active-panel) {
-            opacity: 0;
-            display: none; 
-        }
-
-        /* 3. Animação de "Stagger" (escalonada) para os cards */
         @keyframes fade-in-up {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .card-animate {
             animation: fade-in-up 0.5s ease-out forwards;
-            opacity: 0; /* Começa escondido */
+            opacity: 0; 
         }
         
-        /* 4. Título "Vivo" com Gradiente Animado */
         .animated-gradient-text {
             background: linear-gradient(90deg, var(--color-text-primary), var(--color-accent), var(--color-text-primary));
             background-size: 200% 200%;
@@ -196,39 +141,65 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* 5. Destaque "Impactante" para o KPI principal */
         @keyframes pulse-glow {
-            0%, 100% { 
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 0 20px var(--color-accent-shadow); 
-            }
-            50% { 
-                /* Amplia a sombra e o glow */
-                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.04), 0 0 35px var(--color-accent-shadow);
-            }
+            0%, 100% { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 0 20px var(--color-accent-shadow); }
+            50% { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.04), 0 0 35px var(--color-accent-shadow); }
         }
         .impact-glow {
-            /* ATUALIZAÇÃO: Agora usa a sombra de acento (lilás) */
-            animation: fade-in-up 0.5s ease-out forwards, 
-                       pulse-glow 2.5s ease-in-out infinite;
-            
+            animation: fade-in-up 0.5s ease-out forwards, pulse-glow 2.5s ease-in-out infinite;
             animation-delay: inherit, 0.7s; 
         }
 
+        /* --- Table Styles --- */
+        .custom-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        .custom-table th, .custom-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--color-border-card);
+        }
+        .custom-table th {
+            background-color: #f8fafc; /* slate-50 */
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: sticky;
+            top: 0;
+        }
+        .custom-table tbody tr:hover {
+            background-color: #f5f3ff; /* violet-50 hover */
+        }
+        .custom-table td {
+            color: var(--color-text-primary);
+            font-size: 0.9rem;
+        }
+        .custom-table td:first-child {
+            font-weight: 500;
+            color: var(--color-text-secondary);
+        }
+        
+        /* Mapa Leaflet */
+        .leaflet-container {
+            border-radius: 0.75rem;
+            z-index: 0; /* Evita sobrepor o menu */
+        }
     </style>
 </head>
-<body class="font-sans"> <!-- ATUALIZAÇÃO RESPONSIVA: Removido 'flex' e 'overflow-hidden' -->
+<body class="font-sans">
 
-    <!-- =================================================== -->
-    <!-- Seção 1: Nova Sidebar de Navegação (Fixa)           -->
-    <!-- ATUALIZAÇÃO RESPONSIVA: Classes 'fixed', 'z-30', 'transform' adicionadas -->
-    <!-- =================================================== -->
+    <!-- Sidebar Overlay (Mobile) -->
+    <div id="sidebar-overlay" onclick="toggleSidebar(false)" class="fixed inset-0 z-20 bg-black bg-opacity-50 hidden lg:hidden"></div>
+
+    <!-- Sidebar -->
     <aside id="sidebar" class="w-64 h-screen p-6 flex flex-col flex-shrink-0 fixed top-0 left-0 z-30 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out" style="background-color: var(--color-bg-sidebar);">
-        <!-- Logo ou Título Principal -->
         <header class="mb-8">
-            <!-- NOVO: Logo SVG -->
             <div class="mb-4">
                 <svg class="h-10 w-10" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                    <!-- ATUALIZADO: Cor do logo para o tema light -->
                     <rect width="18" height="28" rx="2" fill="var(--color-text-tertiary)" transform="translate(0 12)"/>
                     <rect width="18" height="18" rx="2" fill="var(--color-accent)" transform="translate(22 22)"/>
                 </svg>
@@ -237,622 +208,636 @@
             <p class="text-sm" style="color: var(--color-text-tertiary);">Dashboard de Disparidade</p>
         </header>
 
-        <!-- Navegação Principal (COM ÍCONES) -->
         <nav id="tab-navigation" class="flex flex-col gap-2">
             <button class="sidebar-button active-tab" onclick="showTab('inicio', this)">
-                <!-- Ícone Home -->
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                 <span>Início</span>
             </button>
+            <button class="sidebar-button" onclick="showTab('educacao', this)">
+                <!-- Ícone Graduation Cap -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                <span>Educação</span>
+            </button>
             <button class="sidebar-button" onclick="showTab('renda', this)">
-                <!-- Ícone Briefcase -->
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
                 <span>Emprego e Renda</span>
             </button>
             <button class="sidebar-button" onclick="showTab('jornada', this)">
-                <!-- Ícone Clock -->
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                 <span>Dupla Jornada</span>
             </button>
             <button class="sidebar-button" onclick="showTab('poder', this)">
-                <!-- Ícone Scale -->
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.8.9-2 1-3 1-1 0-2.1-.1-3-1Z"></path><path d="m2 16 3-8 3 8c-.8.9-2 1-3 1-1 0-2.1-.1-3-1Z"></path><path d="M12 3v18"></path><path d="M7 12h10"></path></svg>
                 <span>Poder Público</span>
             </button>
-            <!-- NOVO: Botão para o Mapa -->
+            <!-- Botão para Liderança -->
+            <button class="sidebar-button" onclick="showTab('lideranca', this)">
+                <!-- Ícone Users/Briefcase (Gestão) -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <span>Liderança e Gestão</span>
+            </button>
             <button class="sidebar-button" onclick="showTab('mapa', this)">
-                <!-- Ícone Map -->
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
                 <span>Mapa Político</span>
             </button>
         </nav>
         
-        <!-- Espaço extra ou rodapé da sidebar -->
         <div class="mt-auto text-xs" style="color: var(--color-text-muted);">
-            <p>© 2025. Dados (2022-2025)</p>
+            <p>© 2025. Dados (2016-2025)</p>
         </div>
     </aside>
 
-    <!-- ATUALIZAÇÃO RESPONSIVA: Overlay para fechar sidebar no mobile -->
-    <div id="sidebar-overlay" onclick="toggleSidebar(false)" class="fixed inset-0 z-20 bg-black bg-opacity-50 hidden lg:hidden"></div>
+    <!-- Mobile Header -->
+    <header class="sticky top-0 z-10 lg:hidden flex items-center justify-between p-4" style="background-color: var(--color-bg-card); border-bottom: 1px solid var(--color-border-card);">
+        <h1 id="mobile-title" class="text-lg font-semibold" style="color: var(--color-text-primary);">Início</h1>
+        <button onclick="toggleSidebar(true)" class="p-2 rounded-md" style="color: var(--color-text-tertiary);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
+    </header>
 
-
-    <!-- =================================================== -->
-    <!-- Seção 2: Conteúdo Principal (Rola independentemente) -->
-    <!-- ATUALIZAÇÃO RESPONSIVA: Adicionado 'lg:ml-64' e removido 'flex-1' -->
-    <!-- =================================================== -->
+    <!-- Main Content -->
     <main class="lg:ml-64 h-screen overflow-y-auto">
-        
-        <!-- ATUALIZAÇÃO RESPONSIVA: Header Fixo para Mobile/Tablet -->
-        <header class="sticky top-0 z-10 lg:hidden flex items-center justify-between p-4" style="background-color: var(--color-bg-card); border-bottom: 1px solid var(--color-border-card);">
-            <h1 id="mobile-title" class="text-lg font-semibold" style="color: var(--color-text-primary);">Início</h1>
-            <button onclick="toggleSidebar(true)" class="p-2 rounded-md" style="color: var(--color-text-tertiary);">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-            </button>
-        </header>
-
         <div id="main-content" class="p-4 md:p-8">
 
-            <!-- Aba 1: Início (Tela de Chegada) -->
+            <!-- Aba 1: Início -->
             <div id="inicio" class="tab-panel active-panel opacity-100">
                 <div class="chart-card mb-8 card-animate"> 
                     <h2 class="text-2xl font-semibold text-slate-800 mb-3">Bem-vindo(a) ao Painel de Disparidade de Gênero</h2>
                     <p class="text-slate-600 leading-relaxed">
-                        Este dashboard centraliza indicadores-chave que ilustram as diferenças nas esferas de trabalho, renda e vida social entre homens e mulheres no Brasil.
+                        Este dashboard centraliza indicadores-chave que ilustram as diferenças nas esferas de trabalho, renda, educação e vida social entre homens e mulheres no Brasil.
                         Use o menu ao lado para se aprofundar em cada tema. O objetivo é fornecer dados claros para embasar discussões e a formulação de políticas públicas.
                     </p>
                 </div>
 
                 <!-- KPIs Principais -->
                 <h2 class="h2-title card-animate" style="animation-delay: 100ms;">Visão Geral (2022-2025)</h2>
-                <!-- ATUALIZAÇÃO RESPONSIVA: Grid já estava responsivo com 'md' e 'lg' -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    
-                    <!-- Card 1: Diferença no Rendimento (COM DESTAQUE) -->
-                    <!-- ATUALIZAÇÃO: O .impact-glow agora usa o --color-accent-shadow (lilás) -->
                     <div class="kpi-card card-animate impact-glow" style="animation-delay: 200ms;">
                         <h3 class="kpi-title">Diferença no Rendimento</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);"
-                           data-value="-24.4" data-suffix="%">0,0%</p>
+                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);" data-value="-24.4" data-suffix="%">0,0%</p>
                         <p class="kpi-subtitle">Rendimento das mulheres vs homens (2º tri 2025)</p>
                     </div>
-
-                    <!-- Card 2: Diferença nas Horas de Afazeres -->
                     <div class="kpi-card card-animate" style="animation-delay: 300ms;">
                         <h3 class="kpi-title">Diferença em Afazeres (sem)</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-warning);"
-                           data-value="7.6" data-prefix="+" data-suffix="h">+0,0h</p>
+                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-warning);" data-value="7.6" data-prefix="+" data-suffix="h">+0,0h</p>
                         <p class="kpi-subtitle">Horas a mais dedicadas por mulheres (2022)</p>
                     </div>
-
-                    <!-- Card 3: Taxa de Pessoas Trabalhando -->
                     <div class="kpi-card card-animate" style="animation-delay: 400ms;">
                         <h3 class="kpi-title">Taxa de Ocupação (2º tri 2025)</h3>
                         <div class="flex items-baseline gap-4 mt-2">
-                            <div class="flex items-baseline gap-1">
-                                <span class="text-2xl font-bold" style="color: var(--color-mulheres);">M:</span>
-                                <p class="text-2xl font-bold kpi-value-animated" style="color: var(--color-mulheres);"
-                                   data-value="52.5" data-suffix="%">0,0%</p>
-                            </div>
-                            <div class="flex items-baseline gap-1">
-                                <span class="text-2xl font-bold" style="color: var(--color-homens);">H:</span>
-                                <p class="text-2xl font-bold kpi-value-animated" style="color: var(--color-homens);"
-                                   data-value="72.4" data-suffix="%">0,0%</p>
-                            </div>
+                            <div class="flex items-baseline gap-1"><span class="text-2xl font-bold" style="color: var(--color-mulheres);">M:</span><p class="text-2xl font-bold kpi-value-animated" style="color: var(--color-mulheres);" data-value="52.5" data-suffix="%">0,0%</p></div>
+                            <div class="flex items-baseline gap-1"><span class="text-2xl font-bold" style="color: var(--color-homens);">H:</span><p class="text-2xl font-bold kpi-value-animated" style="color: var(--color-homens);" data-value="72.4" data-suffix="%">0,0%</p></div>
                         </div>
                     </div>
-
-                    <!-- Card 4: Taxa de Informalidade -->
                     <div class="kpi-card card-animate" style="animation-delay: 500ms;">
-                        <h3 class="kpi-title">Taxa de Informalidade (2º tri 2025)</h3>
+                        <h3 class="kpi-title">Gap no Ensino Superior (18-24)</h3>
                         <div class="flex items-baseline gap-4 mt-2">
-                            <div class="flex items-baseline gap-1">
-                                <span class="text-2xl font-bold" style="color: var(--color-mulheres);">M:</span>
-                                <p class="text-2xl font-bold kpi-value-animated" style="color: var(--color-mulheres);"
-                                   data-value="39.9" data-suffix="%">0,0%</p>
-                            </div>
-                            <div class="flex items-baseline gap-1">
-                                <span class="text-2xl font-bold" style="color: var(--color-homens);">H:</span>
-                                <p class="text-2xl font-bold kpi-value-animated" style="color: var(--color-homens);"
-                                   data-value="35.9" data-suffix="%">0,0%</p>
-                            </div>
+                            <div class="flex items-baseline gap-1"><span class="text-2xl font-bold" style="color: var(--color-mulheres);">M:</span><p class="text-2xl font-bold kpi-value-animated" style="color: var(--color-mulheres);" data-value="31.5" data-suffix="%">0,0%</p></div>
+                            <div class="flex items-baseline gap-1"><span class="text-2xl font-bold" style="color: var(--color-homens);">H:</span><p class="text-2xl font-bold kpi-value-animated" style="color: var(--color-homens);" data-value="23.0" data-suffix="%">0,0%</p></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- NOVO: KPIs de Contexto Estrutural -->
+                <!-- Contexto Estrutural -->
                 <h2 class="h2-title card-animate" style="animation-delay: 600ms;">Contexto Estrutural e Tendências</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    
-                    <!-- KPI 1: Gap Força de Trabalho -->
                     <div class="kpi-card card-animate" style="animation-delay: 700ms;">
                         <h3 class="kpi-title">Gap na Força de Trabalho</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);"
-                           data-value="-895" data-suffix=" mil">-0 mil</p>
+                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);" data-value="-895" data-suffix=" mil">-0 mil</p>
                         <p class="kpi-subtitle">Mulheres a menos no mercado (2º tri 2025)</p>
                     </div>
-
-                    <!-- KPI 2: Barreira Afazeres (Não Ocupadas) -->
                     <div class="kpi-card card-animate" style="animation-delay: 800ms;">
                         <h3 class="kpi-title">Diferença Afazeres (Não Ocupadas)</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-warning);"
-                           data-value="8.3" data-prefix="+" data-suffix="h">+0,0h</p>
-                        <p class="kpi-subtitle">Horas a mais p/ mulheres *fora* do mercado (2022)</p>
+                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-warning);" data-value="8.3" data-prefix="+" data-suffix="h">+0,0h</p>
+                        <p class="kpi-subtitle">Horas a mais p/ mulheres *fora* do mercado</p>
                     </div>
-
-                    <!-- KPI 3: Aumento Gap Salarial (Absoluto) -->
                     <div class="kpi-card card-animate" style="animation-delay: 900ms;">
-                        <h3 class="kpi-title">Aumento do Gap Salarial (Absoluto)</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);"
-                           data-value="235" data-prefix="+R$ ">+R$ 0</p>
-                        <p class="kpi-subtitle">Aumento da diferença salarial (2T 2023-2T 2025)</p>
+                        <h3 class="kpi-title">Aumento do Gap Salarial</h3>
+                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);" data-value="235" data-prefix="+R$ ">+R$ 0</p>
+                        <p class="kpi-subtitle">Aumento da diferença (2T 2023-2T 2025)</p>
                     </div>
-
-                    <!-- KPI 4: Diferença Horas Emprego (Sem Afazeres) -->
                     <div class="kpi-card card-animate" style="animation-delay: 1000ms;">
-                        <h3 class="kpi-title">Diferença Horas Emprego (Sem Afazeres)</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-warning);"
-                           data-value="-4.2" data-suffix="h">-0,0h</p>
-                        <p class="kpi-subtitle">Horas a menos, *mesmo* sem afazeres (2022)</p>
+                        <h3 class="kpi-title">Prefeitas no RJ (2025)</h3>
+                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);" data-value="15.2" data-suffix="%">0,0%</p>
+                        <p class="kpi-subtitle">Apenas 14 de 92 prefeituras</p>
+                    </div>
+                </div>
+                
+                <!-- Gráfico de Evolução da População Feminina -->
+                <div class="chart-card card-animate mb-8" style="animation-delay: 1100ms;">
+                    <h3 class="h3-title">Evolução da População Feminina Residente (Estimada)</h3>
+                    <div class="h-[300px] relative">
+                        <canvas id="populacaoFemininaChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Tabela de População por Grupo Etário -->
+                <div class="chart-card card-animate" style="animation-delay: 1200ms;">
+                    <h3 class="h3-title">Detalhamento Demográfico: Mulheres por Faixa Etária (Mil pessoas)</h3>
+                    <p class="text-slate-500 text-sm mb-4">Evolução histórica da população feminina residente no Estado do Rio de Janeiro.</p>
+                    <div class="overflow-x-auto rounded-lg border border-slate-100">
+                        <table class="custom-table" id="tabelaPopulacao">
+                            <thead>
+                                <tr>
+                                    <th>Grupo Etário</th>
+                                    <th>2016</th>
+                                    <th>2017</th>
+                                    <th>2018</th>
+                                    <th>2019</th>
+                                    <th>2022</th>
+                                    <th>2023</th>
+                                    <th>2024</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Preenchido via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Aba 2: Educação -->
+            <div id="educacao" class="tab-panel">
+                <h2 class="h2-title card-animate">Educação: O Paradoxo da Qualificação</h2>
+                <p class="text-slate-600 mb-6 card-animate">
+                    As mulheres no Rio de Janeiro estudam mais, têm menos analfabetismo e acessam mais o ensino superior. 
+                    Apesar disso, a disparidade salarial persiste, indicando que a educação sozinha não elimina as barreiras de gênero.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="kpi-card card-animate" style="animation-delay: 100ms;">
+                        <h3 class="kpi-title">Média Anos de Estudo (15+)</h3>
+                        <div class="flex items-baseline gap-4 mt-2">
+                            <div class="flex items-baseline gap-1"><span class="text-2xl font-bold" style="color: var(--color-mulheres);">M:</span><p class="text-2xl font-bold kpi-value-animated" style="color: var(--color-mulheres);" data-value="11.2" data-suffix=" anos">0.0</p></div>
+                            <div class="flex items-baseline gap-1"><span class="text-2xl font-bold" style="color: var(--color-homens);">H:</span><p class="text-2xl font-bold kpi-value-animated" style="color: var(--color-homens);" data-value="11.1" data-suffix=" anos">0.0</p></div>
+                        </div>
+                        <p class="kpi-subtitle">Dados de 2024 (Mulheres lideram desde 2016)</p>
+                    </div>
+                    <div class="kpi-card card-animate" style="animation-delay: 200ms;">
+                        <h3 class="kpi-title">Frequência Superior (18-24 anos)</h3>
+                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-positive);" data-value="8.5" data-prefix="+" data-suffix=" p.p.">+0.0 p.p.</p>
+                        <p class="kpi-subtitle">Vantagem feminina no acesso à universidade (2024)</p>
+                    </div>
+                    <div class="kpi-card card-animate" style="animation-delay: 300ms;">
+                        <h3 class="kpi-title">Mulheres com Superior Completo</h3>
+                        <p class="kpi-value kpi-value-animated" style="color: var(--color-mulheres);" data-value="1.75" data-suffix=" mi">0 mi</p>
+                        <p class="kpi-subtitle">Crescimento de 57% desde 2016</p>
+                    </div>
+                    <div class="kpi-card card-animate" style="animation-delay: 400ms;">
+                        <h3 class="kpi-title">Mulheres Analfabetas (15+)</h3>
+                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-warning);" data-value="154" data-suffix=" mil">0 mil</p>
+                        <p class="kpi-subtitle">vs 134 mil homens (2024)</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <div class="chart-card card-animate" style="animation-delay: 400ms;">
+                        <h3 class="h3-title">Evolução: Média de Anos de Estudo (15+)</h3>
+                        <div class="h-[300px] relative">
+                            <canvas id="anosEstudoChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card card-animate" style="animation-delay: 500ms;">
+                        <h3 class="h3-title">Taxa Ajustada Frequência Superior (18-24 anos)</h3>
+                        <div class="h-[300px] relative">
+                            <canvas id="freqSuperiorChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card card-animate" style="animation-delay: 600ms;">
+                        <h3 class="h3-title">Evolução do Analfabetismo (15 anos ou mais)</h3>
+                        <div class="h-[300px] relative">
+                            <canvas id="analfabetismoChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card card-animate" style="animation-delay: 700ms;">
+                        <h3 class="h3-title">Evolução do Nível Superior Completo (Absoluto)</h3>
+                        <div class="h-[300px] relative">
+                            <canvas id="superiorAbsolutoChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Aba 2: Emprego e Renda -->
+            <!-- Aba 3: Emprego e Renda -->
             <div id="renda" class="tab-panel">
                 <h2 class="h2-title card-animate">Emprego e Renda</h2>
-                
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <div class="kpi-card card-animate" style="animation-delay: 100ms;">
                         <h3 class="kpi-title">Diferença de Rendimento</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);" 
-                           data-value="-24.4" data-suffix="%">0,0%</p> <!-- ATUALIZADO TEXTO INICIAL -->
+                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);" data-value="-24.4" data-suffix="%">0,0%</p>
                         <p class="kpi-subtitle">(2º tri 2025)</p>
                     </div>
                     <div class="kpi-card card-animate" style="animation-delay: 200ms;">
                         <h3 class="kpi-title">Diferença na Ocupação</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);"
-                           data-value="-19.9" data-suffix=" p.p.">0,0 p.p.</p> <!-- ATUALIZADO TEXTO INICIAL -->
+                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);" data-value="-19.9" data-suffix=" p.p.">0,0 p.p.</p>
                         <p class="kpi-subtitle">(2º tri 2025)</p>
                     </div>
                     <div class="kpi-card card-animate" style="animation-delay: 300ms;">
                         <h3 class="kpi-title">Diferença na Informalidade</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-warning);"
-                           data-value="4.0" data-prefix="+" data-suffix=" p.p.">+0,0 p.p.</p> <!-- ATUALIZADO TEXTO INICIAL -->
+                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-warning);" data-value="4.0" data-prefix="+" data-suffix=" p.p.">+0,0 p.p.</p>
                         <p class="kpi-subtitle">(2º tri 2025)</p>
                     </div>
                 </div>
-                
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                     <div class="chart-card card-animate" style="animation-delay: 400ms;">
                         <h3 class="h3-title">Evolução do Rendimento Médio (2023-2025)</h3>
-                        <div class="h-[300px] relative">
-                            <canvas id="rendimentoChart"></canvas>
-                        </div>
+                        <div class="h-[300px] relative"><canvas id="rendimentoChart"></canvas></div>
                     </div>
-                    
                     <div class="chart-card card-animate" style="animation-delay: 500ms;">
                         <h3 class="h3-title">Evolução da Taxa de Ocupação (2023-2025)</h3>
-                        <div class="h-[300px] relative">
-                            <canvas id="ocupacaoChart"></canvas>
-                        </div>
+                        <div class="h-[300px] relative"><canvas id="ocupacaoChart"></canvas></div>
                     </div>
-
                     <div class="chart-card lg:col-span-2 card-animate" style="animation-delay: 600ms;">
                         <h3 class="h3-title">Evolução da Taxa de Informalidade (2023-2025)</h3>
-                        <div class="h-[300px] relative">
-                            <canvas id="informalidadeChart"></canvas>
-                        </div>
+                        <div class="h-[300px] relative"><canvas id="informalidadeChart"></canvas></div>
                     </div>
                 </div>
             </div>
             
-            <!-- Aba 3: Dupla Jornada -->
+            <!-- Aba 4: Dupla Jornada -->
             <div id="jornada" class="tab-panel">
                 <h2 class="h2-title card-animate">Dupla Jornada (Afazeres Domésticos)</h2>
-                
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <div class="kpi-card card-animate" style="animation-delay: 100ms;">
                         <h3 class="kpi-title">Horas Semanais a Mais (2022)</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-warning);"
-                           data-value="7.6" data-prefix="+" data-suffix="h">+0,0h</p> <!-- ATUALIZADO TEXTO INICIAL -->
+                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-warning);" data-value="7.6" data-prefix="+" data-suffix="h">+0,0h</p>
                         <p class="kpi-subtitle">Dedicadas por mulheres a afazeres</p>
                     </div>
                     <div class="kpi-card card-animate" style="animation-delay: 200ms;">
                         <h3 class="kpi-title">Taxa de Afazeres (25-49 anos)</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-mulheres);"
-                           data-value="94.7" data-suffix="%">0,0%</p> <!-- ATUALIZADO TEXTO INICIAL -->
+                        <p class="kpi-value kpi-value-animated" style="color: var(--color-mulheres);" data-value="94.7" data-suffix="%">0,0%</p>
                         <p class="kpi-subtitle">vs. 87,7% dos homens (2022)</p>
                     </div>
                     <div class="kpi-card card-animate" style="animation-delay: 300ms;">
                         <h3 class="kpi-title">Taxa de Afazeres (Sup. completo)</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-mulheres);"
-                           data-value="92.2" data-suffix="%">0,0%</p> <!-- ATUALIZADO TEXTO INICIAL -->
+                        <p class="kpi-value kpi-value-animated" style="color: var(--color-mulheres);" data-value="92.2" data-suffix="%">0,0%</p>
                         <p class="kpi-subtitle">vs. 87,2% dos homens (2022)</p>
                     </div>
                 </div>
-                
-                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
                     <div class="chart-card lg:col-span-3 card-animate" style="animation-delay: 400ms;">
                         <h3 class="h3-title">Horas Semanais em Afazeres (2018-2022)</h3>
-                        <div class="h-[300px] relative">
-                            <canvas id="afazeresChart"></canvas>
-                        </div>
+                        <div class="h-[300px] relative"><canvas id="afazeresChart"></canvas></div>
                     </div>
-
                     <div class="chart-card card-animate" style="animation-delay: 500ms;">
                         <h3 class="h3-title">Taxa de Afazeres por Instrução (2022)</h3>
-                        <div class="h-[300px] relative">
-                            <canvas id="instrucaoChart"></canvas>
-                        </div>
+                        <div class="h-[300px] relative"><canvas id="instrucaoChart"></canvas></div>
                     </div>
-
                     <div class="chart-card card-animate" style="animation-delay: 600ms;">
                         <h3 class="h3-title">Taxa de Afazeres por Idade (2022)</h3>
-                        <div class="h-[300px] relative">
-                            <canvas id="idadeChart"></canvas>
-                        </div>
+                        <div class="h-[300px] relative"><canvas id="idadeChart"></canvas></div>
                     </div>
                 </div>
             </div>
             
-            <!-- Aba 4: Poder Público -->
+            <!-- Aba 5: Poder Público (Cargos Eletivos) -->
             <div id="poder" class="tab-panel">
-                <h2 class="h2-title card-animate">Representação no Poder Público</h2>
+                <h2 class="h2-title card-animate">Representação Política (Cargos Eletivos)</h2>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     <div class="kpi-card card-animate" style="animation-delay: 100ms;">
                         <h3 class="kpi-title">Mulheres no Executivo RJ</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);"
-                           data-value="20.6" data-suffix="%">0,0%</p> <!-- ATUALIZADO TEXTO INICIAL -->
+                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);" data-value="20.6" data-suffix="%">0,0%</p>
                         <p class="kpi-subtitle">7 de 34 cargos (2025)</p>
                     </div>
                     <div class="kpi-card card-animate" style="animation-delay: 200ms;">
                         <h3 class="kpi-title">Mulheres na ALERJ</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);"
-                           data-value="22.9" data-suffix="%">0,0%</p> <!-- ATUALIZADO TEXTO INICIAL -->
+                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);" data-value="22.9" data-suffix="%">0,0%</p>
                         <p class="kpi-subtitle">16 de 70 deputadas (2025)</p>
                     </div>
                     <div class="kpi-card card-animate" style="animation-delay: 300ms;">
                         <h3 class="kpi-title">Mulheres no TJRJ</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-warning);"
-                           data-value="41.2" data-suffix="%">0,0%</p> <!-- ATUALIZADO TEXTO INICIAL -->
+                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-warning);" data-value="41.2" data-suffix="%">0,0%</p>
                         <p class="kpi-subtitle">77 de 187 desembargadores(as) (2025)</p>
                     </div>
                      <div class="kpi-card card-animate" style="animation-delay: 400ms;">
                         <h3 class="kpi-title">Mulheres em Prefeituras</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);"
-                           data-value="15.2" data-suffix="%">0,0%</p> <!-- ATUALIZADO TEXTO INICIAL -->
+                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);" data-value="15.2" data-suffix="%">0,0%</p>
                         <p class="kpi-subtitle">14 de 92 prefeitas (2025)</p>
                     </div>
                 </div>
                 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
                     <div class="chart-card card-animate" style="animation-delay: 500ms;">
                         <h3 class="h3-title text-center">Evolução Executivo RJ (2021 vs 2025)</h3>
-                        <div class="h-[350px] relative">
-                            <canvas id="executivoChart"></canvas>
-                        </div>
+                        <div class="h-[350px] relative"><canvas id="executivoChart"></canvas></div>
                     </div>
                     <div class="chart-card card-animate" style="animation-delay: 600ms;">
                         <h3 class="h3-title text-center">Evolução ALERJ (2021 vs 2025)</h3>
-                        <div class="h-[350px] relative">
-                            <canvas id="alerjChart"></canvas>
-                        </div>
+                        <div class="h-[350px] relative"><canvas id="alerjChart"></canvas></div>
                     </div>
                     <div class="chart-card card-animate" style="animation-delay: 700ms;">
                         <h3 class="h3-title text-center">Evolução Prefeituras (2021 vs 2025)</h3>
-                        <div class="h-[350px] relative">
-                            <canvas id="prefeiturasChart"></canvas>
-                        </div>
+                        <div class="h-[350px] relative"><canvas id="prefeiturasChart"></canvas></div>
                     </div>
                     <div class="chart-card card-animate" style="animation-delay: 800ms;">
                         <h3 class="h3-title text-center">Composição TJRJ (2025)</h3>
-                        <div class="h-[350px] relative">
-                            <canvas id="tjrjChart"></canvas>
-                        </div>
+                        <div class="h-[350px] relative"><canvas id="tjrjChart"></canvas></div>
                     </div>
                 </div>
+            </div>
+            
+            <!-- Aba 6: Liderança e Gestão (Atualizada) -->
+            <div id="lideranca" class="tab-panel">
+                <h2 class="h2-title card-animate">Liderança e Gestão Pública (Série Histórica)</h2>
+                <p class="text-slate-600 mb-6 card-animate">
+                    Análise da representatividade em cargos de alto escalão administrativo e o "gap" salarial em posições de chefia.
+                </p>
                 
-                <div class="chart-card text-center card-animate" style="animation-delay: 900ms;">
-                    <!-- ATUALIZADO: Classe de texto de dark mode removida/substituída -->
-                    <p class="text-slate-500">
-                        Os gráficos de evolução comparam os dados de 2021 e 2025. Para o TJRJ, apenas os dados de 2025 estavam disponíveis.
-                    </p>
+                <!-- SUBSTITUÍDO: KPI por Gráfico de Linha -->
+                <div class="grid grid-cols-1 gap-6 mb-8">
+                     <div class="chart-card card-animate" style="animation-delay: 100ms;">
+                        <h3 class="h3-title">Evolução do Gap Salarial na Gestão (Diferença Homem - Mulher)</h3>
+                        <div class="h-[250px] relative"><canvas id="gapChefiaChart"></canvas></div>
+                        <p class="text-xs text-slate-400 mt-2">Diferença em Reais (R$) a favor dos homens em cargos gerenciais no RJ.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Gráfico 1: Ministérios e Câmara -->
+                    <div class="chart-card card-animate" style="animation-delay: 200ms;">
+                        <h3 class="h3-title">Evolução da Representatividade Feminina (%)</h3>
+                        <div class="h-[300px] relative"><canvas id="historicoPoliticoChart"></canvas></div>
+                    </div>
+
+                    <!-- Gráfico 2: Cargos Gerenciais RJ -->
+                    <div class="chart-card card-animate" style="animation-delay: 300ms;">
+                        <h3 class="h3-title">Proporção em Cargos Gerenciais - RJ (%)</h3>
+                        <div class="h-[300px] relative"><canvas id="historicoGerencialChart"></canvas></div>
+                    </div>
+
+                    <!-- Gráfico 3: Rendimento Gestão -->
+                    <div class="chart-card lg:col-span-2 card-animate" style="animation-delay: 400ms;">
+                        <h3 class="h3-title">Rendimento Médio em Cargos de Gestão - RJ (R$)</h3>
+                        <div class="h-[300px] relative"><canvas id="historicoRendaGestaoChart"></canvas></div>
+                    </div>
                 </div>
             </div>
 
-            <!-- NOVO: Aba 5: Mapa Político -->
+            <!-- Aba 7: Mapa Político -->
             <div id="mapa" class="tab-panel">
                 <h2 class="h2-title card-animate">Mapa Político: Prefeituras RJ (2025)</h2>
-                
-                <!-- KPIs do Mapa -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <div class="kpi-card card-animate" style="animation-delay: 100ms;">
                         <h3 class="kpi-title">Total de Prefeituras</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-text-primary);"
-                           data-value="92">0</p>
+                        <p class="kpi-value kpi-value-animated" style="color: var(--color-text-primary);" data-value="92">0</p>
                         <p class="kpi-subtitle">Municípios no RJ</p>
                     </div>
                     <div class="kpi-card card-animate" style="animation-delay: 200ms;">
                         <h3 class="kpi-title">Prefeitas Mulheres</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-mulheres);"
-                           data-value="14">0</p>
+                        <p class="kpi-value kpi-value-animated" style="color: var(--color-mulheres);" data-value="14">0</p>
                         <p class="kpi-subtitle">vs. 78 Prefeitos Homens</p>
                     </div>
                     <div class="kpi-card card-animate" style="animation-delay: 300ms;">
                         <h3 class="kpi-title">% de Mulheres no Executivo</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);"
-                           data-value="15.2" data-suffix="%">0,0%</p>
+                        <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);" data-value="15.2" data-suffix="%">0,0%</p>
                         <p class="kpi-subtitle">Ocupando prefeituras em 2025</p>
                     </div>
                 </div>
-
-                <!-- Container do Mapa -->
                 <div class="chart-card card-animate" style="animation-delay: 400ms;">
                     <h3 class="h3-title">Distribuição de Gênero nas Prefeituras do RJ</h3>
-                    <div id="map_chart_div" class="w-full min-h-[500px] md:min-h-[650px] relative">
-                        <!-- O Google Chart será renderizado aqui -->
-                        <div class_ ="flex items-center justify-center h-full text-slate-500">
-                            Carregando mapa...
-                        </div>
+                    <div id="map_chart_div" class="w-full min-h-[500px] md:min-h-[650px] relative z-0">
+                        <div class="flex items-center justify-center h-full text-slate-500">Carregando mapa...</div>
                     </div>
                 </div>
             </div>
 
-        </div> <!-- Fim do #main-content -->
+        </div>
     </main>
 
-    <!-- =================================================== -->
-    <!-- 4. Script para inicializar os gráficos e abas       -->
-    <!-- =================================================== -->
     <script>
-        // --- Pega as cores das variáveis CSS ---
         const cssVars = getComputedStyle(document.documentElement);
-        
-        const corMulheres = cssVars.getPropertyValue('--color-mulheres') || 'rgba(52, 211, 153, 0.8)';
-        const corHomens = cssVars.getPropertyValue('--color-homens') || 'rgba(129, 140, 248, 0.8)';
-        const corBordaMulheres = cssVars.getPropertyValue('--color-mulheres-border') || 'rgba(16, 185, 129, 1)';
-        const corBordaHomens = cssVars.getPropertyValue('--color-homens-border') || 'rgba(99, 102, 241, 1)';
-        
-        /* ATUALIZAÇÕES PARA TEMA LIGHT */
-        const corGrid = cssVars.getPropertyValue('--color-border-divider') || 'rgba(0, 0, 0, 0.05)';
+        const corMulheres = cssVars.getPropertyValue('--color-mulheres') || '#fb7185';
+        const corHomens = cssVars.getPropertyValue('--color-homens') || '#64748b';
+        const corBordaMulheres = cssVars.getPropertyValue('--color-mulheres-border') || '#f43f5e';
+        const corBordaHomens = cssVars.getPropertyValue('--color-homens-border') || '#475569';
+        const corGrid = cssVars.getPropertyValue('--color-border-divider') || '#ddd6fe';
         const corTexto = cssVars.getPropertyValue('--color-text-secondary') || '#475569';
         const corTooltipBg = cssVars.getPropertyValue('--color-bg-card') || '#ffffff';
         const corTooltipTitle = cssVars.getPropertyValue('--color-text-primary') || '#1e293b';
-        const corTooltipBorder = cssVars.getPropertyValue('--color-border-card') || '#ffe4e6';
+        const corTooltipBorder = cssVars.getPropertyValue('--color-border-card') || '#ede9fe';
         const corBgCard = cssVars.getPropertyValue('--color-bg-card') || '#ffffff';
+        const corAccent = cssVars.getPropertyValue('--color-accent') || '#8b5cf6'; 
+        const corKpiNegative = cssVars.getPropertyValue('--color-kpi-negative') || '#ef4444';
 
-
-        // --- Opções Globais do Chart.js para Modo Escuro ---
         const globalChartOptions = (plugins = {}, scales = {}) => ({
-            responsive: true,
-            maintainAspectRatio: false,
-            animation: {
-                duration: 1000,
-                easing: 'easeInOutCubic'
-            },
+            responsive: true, maintainAspectRatio: false,
+            animation: { duration: 1000, easing: 'easeInOutCubic' },
             plugins: {
-                legend: {
-                    position: 'top',
-                    labels: {
-                        color: corTexto, /* ATUALIZADO (agora é escuro) */
-                        font: { size: 12 },
-                        padding: 20
-                    }
-                },
-                tooltip: {
-                    backgroundColor: corTooltipBg, /* ATUALIZADO (branco) */
-                    titleColor: corTooltipTitle, /* ATUALIZADO (escuro) */
-                    bodyColor: corTexto, /* ATUALIZADO (escuro) */
-                    borderColor: corTooltipBorder, /* ATUALIZADO (rose) */
-                    borderWidth: 1,
-                    padding: 10,
-                    cornerRadius: 6,
-                    displayColors: true,
-                    boxPadding: 4
-                },
+                legend: { position: 'top', labels: { color: corTexto, font: { size: 12 }, padding: 20 } },
+                tooltip: { backgroundColor: corTooltipBg, titleColor: corTooltipTitle, bodyColor: corTexto, borderColor: corTooltipBorder, borderWidth: 1, padding: 10, cornerRadius: 6, displayColors: true, boxPadding: 4 },
                 ...plugins
             },
             scales: {
-                x: {
-                    ticks: { color: corTexto, font: { size: 10 } }, /* ATUALIZADO */
-                    grid: { color: corGrid, drawBorder: false }, /* ATUALIZADO */
-                    ...scales.x
-                },
-                y: {
-                    ticks: { color: corTexto, font: { size: 10 } }, /* ATUALIZADO */
-                    grid: { color: corGrid, drawBorder: false }, /* ATUALIZADO */
-                    ...scales.y
-                }
+                x: { ticks: { color: corTexto, font: { size: 10 } }, grid: { color: corGrid, drawBorder: false }, ...scales.x },
+                y: { ticks: { color: corTexto, font: { size: 10 } }, grid: { color: corGrid, drawBorder: false }, ...scales.y }
             }
         });
 
-        // --- Armazenamento para instâncias de gráficos (para lazy loading) ---
         window.chartInstances = {};
         const allPanels = document.querySelectorAll('.tab-panel');
         const allButtons = document.querySelectorAll('.sidebar-button');
 
-        // --- ATUALIZAÇÃO RESPONSIVA: Lógica da Sidebar ---
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('sidebar-overlay');
         const mobileTitle = document.getElementById('mobile-title');
 
-        /**
-         * @param {boolean | null} [forceOpen] - Força um estado (true=abrir, false=fechar)
-         */
         function toggleSidebar(forceOpen = null) {
-            if (!sidebar || !overlay) return; // Proteção
-            
+            if (!sidebar || !overlay) return;
             const isOpen = sidebar.classList.contains('translate-x-0');
-            
             if (forceOpen === true || (forceOpen === null && !isOpen)) {
-                // Abrir
-                sidebar.classList.remove('-translate-x-full');
-                sidebar.classList.add('translate-x-0');
-                overlay.classList.remove('hidden');
+                sidebar.classList.remove('-translate-x-full'); sidebar.classList.add('translate-x-0'); overlay.classList.remove('hidden');
             } else {
-                // Fechar
-                sidebar.classList.add('-translate-x-full');
-                sidebar.classList.remove('translate-x-0');
-                overlay.classList.add('hidden');
+                sidebar.classList.add('-translate-x-full'); sidebar.classList.remove('translate-x-0'); overlay.classList.add('hidden');
             }
         }
 
-
-        // --- Lógica de troca de Abas (REFINADA) ---
         function showTab(tabId, element) {
             const targetPanel = document.getElementById(tabId);
             if (!targetPanel) return;
 
-            // 1. Gerencia botões
-            allButtons.forEach(button => {
-                button.classList.remove('active-tab');
-            });
+            allButtons.forEach(button => button.classList.remove('active-tab'));
             element.classList.add('active-tab');
 
-            // ATUALIZAÇÃO RESPONSIVA: Atualiza o título no header mobile
             if (mobileTitle) {
                 const span = element.querySelector('span');
-                if (span) {
-                    mobileTitle.textContent = span.textContent;
-                }
+                if (span) mobileTitle.textContent = span.textContent;
             }
 
-            <!-- 2. Gerencia painéis (com transição de fade) -->
             allPanels.forEach(panel => {
                 if (panel.id === tabId) {
-                    panel.classList.remove('hidden');
-                    panel.classList.add('active-panel');
-                    void panel.offsetWidth; // Força reflow
-                    panel.classList.remove('opacity-0');
-                    panel.classList.add('opacity-100');
+                    panel.classList.remove('hidden'); panel.classList.add('active-panel'); void panel.offsetWidth; panel.classList.remove('opacity-0'); panel.classList.add('opacity-100');
                 } else {
-                    panel.classList.remove('active-panel', 'opacity-100');
-                    panel.classList.add('opacity-0');
-                    setTimeout(() => {
-                        if (!panel.classList.contains('active-panel')) { // Checagem extra
-                            panel.classList.add('hidden');
-                        }
-                    }, 400); // Deve bater com a duração da transição
+                    panel.classList.remove('active-panel', 'opacity-100'); panel.classList.add('opacity-0');
+                    setTimeout(() => { if (!panel.classList.contains('active-panel')) panel.classList.add('hidden'); }, 400);
                 }
             });
 
-            // 3. Carrega os gráficos da aba (apenas na primeira vez)
-            if (tabId === 'renda') {
-                createRendaCharts();
-            } else if (tabId === 'jornada') {
-                createJornadaCharts();
-            } else if (tabId === 'poder') {
-                createPoderChart();
-            }
-            else if (tabId === 'mapa') {
-                createMapaChart();
-            }
+            if (tabId === 'renda') createRendaCharts();
+            else if (tabId === 'jornada') createJornadaCharts();
+            else if (tabId === 'poder') createPoderChart();
+            else if (tabId === 'lideranca') createLiderancaCharts();
+            else if (tabId === 'educacao') createEducacaoCharts();
+            else if (tabId === 'mapa') createMapaChart();
+            else if (tabId === 'inicio') createInicioCharts();
             
-            // 4. (Re)Inicia as animações da aba
-            setTimeout(() => {
-                triggerAnimations(targetPanel);
-            }, 100); // Sincroniza com o fade-in do painel
-
-            // ATUALIZAÇÃO RESPONSIVA: Fecha a sidebar no mobile após clicar
-            if (window.innerWidth < 1024) { // 1024px = lg
-                toggleSidebar(false);
-            }
+            setTimeout(() => triggerAnimations(targetPanel), 100);
+            if (window.innerWidth < 1024) toggleSidebar(false);
         }
         
-        // --- NOVO: Função para Animação de "Contagem" (CORRIGIDA) ---
         function animateCountUp(el) {
             const targetValue = parseFloat(el.dataset.value);
-            // Verifica se o valor é um número válido
-            if (isNaN(targetValue)) {
-                // console.error("animateCountUp falhou: data-value não é um número", el);
-                return;
-            }
-            
-            const duration = 1500; 
-            const prefix = el.dataset.prefix || '';
-            const suffix = el.dataset.suffix || '';
-            
-            let start = null;
-            const startValue = 0; // <<< CORREÇÃO: Sempre inicia a animação do zero
-            
+            if (isNaN(targetValue)) return;
+            const duration = 1500; const prefix = el.dataset.prefix || ''; const suffix = el.dataset.suffix || '';
+            let start = null; const startValue = 0;
             const step = (timestamp) => {
                 if (!start) start = timestamp;
                 const progress = Math.min((timestamp - start) / duration, 1);
-                
-                // Cálculo (ease-out quad)
                 let currentValue = startValue + (targetValue - startValue) * progress * (2 - progress);
-                
                 let textValue;
-                // Formata para ter 1 casa decimal se o *alvo* tiver
-                // CORREÇÃO: Trata valores entre -1 e 1 que podem ir para 0.0
-                if (Math.abs(targetValue) > 0 && Math.abs(targetValue) < 1) {
-                     textValue = currentValue.toFixed(1);
-                } else if (targetValue % 1 !== 0) {
-                    textValue = currentValue.toFixed(1);
-                } else {
-                    textValue = currentValue.toFixed(0);
-                }
-
-                // Garante que -0,0 seja 0,0
-                if (textValue === '-0,0' || textValue === '-0') {
-                    textValue = '0';
-                }
-                
+                if (Math.abs(targetValue) > 0 && Math.abs(targetValue) < 1) textValue = currentValue.toFixed(1);
+                else if (targetValue % 1 !== 0) textValue = currentValue.toFixed(1);
+                else textValue = currentValue.toFixed(0);
+                if (textValue === '-0,0' || textValue === '-0') textValue = '0';
                 el.textContent = `${prefix}${String(textValue).replace('.', ',')}${suffix}`;
-
-                if (progress < 1) {
-                    window.requestAnimationFrame(step);
-                } else {
-                    // Garante o valor final exato
-                    el.textContent = `${prefix}${String(targetValue).replace('.', ',')}${suffix}`;
-                }
+                if (progress < 1) window.requestAnimationFrame(step);
+                else el.textContent = `${prefix}${String(targetValue).replace('.', ',')}${suffix}`;
             };
             window.requestAnimationFrame(step);
         }
 
-        // --- NOVO: Função para disparar animações de uma aba ---
         function triggerAnimations(panel) {
             if (!panel) return;
-            
-            // 1. Anima os KPIs (contagem)
             panel.querySelectorAll('.kpi-value-animated').forEach(animateCountUp);
-
-            // 2. Anima os cards (stagger)
             const cards = panel.querySelectorAll('.card-animate');
             cards.forEach((card, index) => {
-                card.style.animation = 'none';
-                void card.offsetWidth; // Força reflow
-                
-                // ATUALIZAÇÃO: O delay do JS agora é só para a primeira animação
-                // A classe .impact-glow cuidará do seu próprio delay composto
-                if (card.classList.contains('impact-glow')) {
-                    // Aplica o delay de stagger (ex: index 2 = 200ms) ao 'inherit'
-                    card.style.animationDelay = `${index * 100}ms, ${index * 100 + 500}ms`; // 200ms e 700ms
-                } else {
-                    card.style.animationDelay = `${index * 100}ms`;
-                }
-
-                card.style.animation = ''; // Reverte para o CSS
+                card.style.animation = 'none'; void card.offsetWidth;
+                if (card.classList.contains('impact-glow')) card.style.animationDelay = `${index * 100}ms, ${index * 100 + 500}ms`;
+                else card.style.animationDelay = `${index * 100}ms`;
+                card.style.animation = '';
             });
         }
 
-        // --- Funções de Criação de Gráficos (Lazy Loading) ---
-        
+        // --- Gráficos da Página Inicial ---
+        function createInicioCharts() {
+            if (window.chartInstances.populacaoFemininaChart) window.chartInstances.populacaoFemininaChart.destroy();
+
+            const ctx = document.getElementById('populacaoFemininaChart')?.getContext('2d');
+            if (ctx) {
+                window.chartInstances.populacaoFemininaChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['2016', '2017', '2018', '2019', '2022', '2023', '2024'],
+                        datasets: [{
+                            label: 'População Feminina (Milhões - Estimado)',
+                            data: [8.6, 8.65, 8.7, 8.75, 8.8, 8.85, 8.9], 
+                            borderColor: corBordaMulheres,
+                            backgroundColor: 'rgba(251, 113, 133, 0.1)',
+                            fill: true,
+                            tension: 0.4,
+                            borderWidth: 3,
+                            pointRadius: 4
+                        }]
+                    },
+                    options: globalChartOptions({
+                        tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${c.raw} milhões` } }
+                    })
+                });
+            }
+
+            const tabelaBody = document.querySelector('#tabelaPopulacao tbody');
+            if (tabelaBody) {
+                tabelaBody.innerHTML = ''; 
+                const popData = [
+                    { grupo: "0 a 3 anos", dados: [394, 386, 404, 397, 333, 368, 393] },
+                    { grupo: "4 a 5 anos", dados: [219, 194, 194, 197, 206, 201, 203] },
+                    { grupo: "6 a 9 anos", dados: [397, 387, 384, 397, 405, 384, 415] },
+                    { grupo: "10 a 14 anos", dados: [539, 500, 496, 507, 485, 497, 516] },
+                    { grupo: "15 a 17 anos", dados: [346, 349, 343, 307, 317, 321, 321] },
+                    { grupo: "18 a 24 anos", dados: [900, 946, 896, 886, 921, 852, 784] },
+                    { grupo: "25 a 29 anos", dados: [677, 637, 681, 653, 646, 665, 661] }
+                ];
+
+                popData.forEach(row => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${row.grupo}</td>
+                        ${row.dados.map(val => `<td>${val}</td>`).join('')}
+                    `;
+                    tabelaBody.appendChild(tr);
+                });
+            }
+        }
+
+        // --- Gráficos da Aba Educação ---
+        function createEducacaoCharts() {
+            if (window.chartInstances.anosEstudoChart) window.chartInstances.anosEstudoChart.destroy();
+            if (window.chartInstances.freqSuperiorChart) window.chartInstances.freqSuperiorChart.destroy();
+            if (window.chartInstances.superiorAbsolutoChart) window.chartInstances.superiorAbsolutoChart.destroy();
+            if (window.chartInstances.analfabetismoChart) window.chartInstances.analfabetismoChart.destroy();
+
+            const ctx1 = document.getElementById('anosEstudoChart').getContext('2d');
+            window.chartInstances.anosEstudoChart = new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: ['2016', '2017', '2018', '2019', '2022', '2023', '2024'],
+                    datasets: [
+                        { label: 'Mulheres', data: [10.1, 10.3, 10.6, 10.8, 11.1, 11.2, 11.2], borderColor: corBordaMulheres, backgroundColor: corMulheres, tension: 0.2, borderWidth: 3, pointRadius: 3 },
+                        { label: 'Homens', data: [10.1, 10.3, 10.6, 10.7, 11.0, 11.2, 11.1], borderColor: corBordaHomens, backgroundColor: corHomens, tension: 0.2, borderWidth: 3, pointRadius: 3 }
+                    ]
+                },
+                options: globalChartOptions({ tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${c.raw} anos` } } }, { y: { min: 9, title: { display: true, text: 'Média de Anos' } } })
+            });
+
+            const ctx2 = document.getElementById('freqSuperiorChart').getContext('2d');
+            window.chartInstances.freqSuperiorChart = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: ['2016', '2017', '2018', '2019', '2022', '2023', '2024'],
+                    datasets: [
+                        { label: 'Mulheres', data: [26.3, 20.5, 25.9, 31.8, 27.4, 28.8, 31.5], backgroundColor: corMulheres, borderRadius: 4 },
+                        { label: 'Homens', data: [21.2, 20.5, 21.9, 23.0, 21.0, 22.7, 23.0], backgroundColor: corHomens, borderRadius: 4 }
+                    ]
+                },
+                options: globalChartOptions()
+            });
+
+            const ctx4 = document.getElementById('analfabetismoChart').getContext('2d');
+            window.chartInstances.analfabetismoChart = new Chart(ctx4, {
+                type: 'line',
+                data: {
+                    labels: ['2016', '2017', '2018', '2019', '2022', '2023', '2024'],
+                    datasets: [
+                        { label: 'Mulheres (Mil)', data: [194, 183, 177, 147, 170, 158, 154], borderColor: corBordaMulheres, backgroundColor: corMulheres, tension: 0.3, borderWidth: 3 },
+                        { label: 'Homens (Mil)', data: [148, 153, 134, 126, 143, 132, 134], borderColor: corBordaHomens, backgroundColor: corHomens, tension: 0.3, borderWidth: 3 }
+                    ]
+                },
+                options: globalChartOptions()
+            });
+            
+            const ctx3 = document.getElementById('superiorAbsolutoChart').getContext('2d');
+            window.chartInstances.superiorAbsolutoChart = new Chart(ctx3, {
+                type: 'line',
+                data: {
+                    labels: ['2016', '2017', '2018', '2019', '2022', '2023', '2024'],
+                    datasets: [
+                        { label: 'Mulheres (Mil)', data: [1119, 1166, 1331, 1468, 1748, 1759, 1757], borderColor: corBordaMulheres, backgroundColor: 'rgba(251, 113, 133, 0.1)', fill: true, tension: 0.3, borderWidth: 3 },
+                        { label: 'Homens (Mil)', data: [802, 843, 902, 1014, 1074, 1135, 1195], borderColor: corBordaHomens, backgroundColor: 'transparent', tension: 0.3, borderWidth: 3, borderDash: [5, 5] }
+                    ]
+                },
+                options: globalChartOptions()
+            });
+        }
+
+        // --- Gráficos Renda, Jornada e Poder (Existentes) ---
         function createRendaCharts() {
-            // NOVO: Destrói instâncias existentes para re-animar
-            if (window.chartInstances.rendimentoChart) {
-                window.chartInstances.rendimentoChart.destroy();
-            }
-            if (window.chartInstances.ocupacaoChart) {
-                window.chartInstances.ocupacaoChart.destroy();
-            }
-            if (window.chartInstances.informalidadeChart) {
-                window.chartInstances.informalidadeChart.destroy();
-            }
+            if (window.chartInstances.rendimentoChart) window.chartInstances.rendimentoChart.destroy();
+            if (window.chartInstances.ocupacaoChart) window.chartInstances.ocupacaoChart.destroy();
+            if (window.chartInstances.informalidadeChart) window.chartInstances.informalidadeChart.destroy();
 
             const ctx1 = document.getElementById('rendimentoChart').getContext('2d');
             window.chartInstances.rendimentoChart = new Chart(ctx1, {
@@ -895,16 +880,9 @@
         }
 
         function createJornadaCharts() {
-            // NOVO: Destrói instâncias existentes para re-animar
-            if (window.chartInstances.afazeresChart) {
-                window.chartInstances.afazeresChart.destroy();
-            }
-            if (window.chartInstances.instrucaoChart) {
-                window.chartInstances.instrucaoChart.destroy();
-            }
-            if (window.chartInstances.idadeChart) {
-                window.chartInstances.idadeChart.destroy();
-            }
+            if (window.chartInstances.afazeresChart) window.chartInstances.afazeresChart.destroy();
+            if (window.chartInstances.instrucaoChart) window.chartInstances.instrucaoChart.destroy();
+            if (window.chartInstances.idadeChart) window.chartInstances.idadeChart.destroy();
 
             const ctx2 = document.getElementById('afazeresChart').getContext('2d');
             window.chartInstances.afazeresChart = new Chart(ctx2, {
@@ -947,117 +925,104 @@
         }
         
         function createPoderChart() {
-            // NOVO: Destrói instâncias existentes para re-animar
-            if (window.chartInstances.executivoChart) {
-                window.chartInstances.executivoChart.destroy();
-            }
-            if (window.chartInstances.alerjChart) {
-                window.chartInstances.alerjChart.destroy();
-            }
-            if (window.chartInstances.prefeiturasChart) {
-                window.chartInstances.prefeiturasChart.destroy();
-            }
-            if (window.chartInstances.tjrjChart) {
-                window.chartInstances.tjrjChart.destroy();
-            }
+            if (window.chartInstances.executivoChart) window.chartInstances.executivoChart.destroy();
+            if (window.chartInstances.alerjChart) window.chartInstances.alerjChart.destroy();
+            if (window.chartInstances.prefeiturasChart) window.chartInstances.prefeiturasChart.destroy();
+            if (window.chartInstances.tjrjChart) window.chartInstances.tjrjChart.destroy();
 
-            const groupedBarOptions = (title) => globalChartOptions(
-                {
-                    title: { display: false, text: title, color: corTexto },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) { return `${context.dataset.label}: ${context.raw.toFixed(1)}%`; }
-                        }
-                    }
-                },
-                {
-                    x: { stacked: false },
-                    y: { stacked: false, ticks: { callback: (value) => value + '%' } }
-                }
-            );
-
-            const doughnutOptions = (title) => ({
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '70%', 
-                animation: { animateRotate: true, animateScale: true, duration: 1200 },
-                plugins: {
-                    legend: { position: 'bottom', labels: { color: corTexto, padding: 15 } }, 
-                    title: { display: false, text: title, color: corTexto },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                let label = context.label || '';
-                                if (label) { label += ': '; }
-                                if (context.parsed !== null) { label += context.parsed.toFixed(1) + '%'; }
-                                return label;
-                            }
-                        }
-                    }
-                },
-                scales: { x: { display: false }, y: { display: false } }
-            });
+            const groupedBarOptions = (title) => globalChartOptions({ title: { display: false, text: title, color: corTexto }, tooltip: { callbacks: { label: function(context) { return `${context.dataset.label}: ${context.raw.toFixed(1)}%`; } } } }, { x: { stacked: false }, y: { stacked: false, ticks: { callback: (value) => value + '%' } } });
+            const doughnutOptions = (title) => ({ responsive: true, maintainAspectRatio: false, cutout: '70%', animation: { animateRotate: true, animateScale: true, duration: 1200 }, plugins: { legend: { position: 'bottom', labels: { color: corTexto, padding: 15 } }, title: { display: false, text: title, color: corTexto }, tooltip: { callbacks: { label: function(context) { let label = context.label || ''; if (label) { label += ': '; } if (context.parsed !== null) { label += context.parsed.toFixed(1) + '%'; } return label; } } } }, scales: { x: { display: false }, y: { display: false } } });
 
             const ctx_exec = document.getElementById('executivoChart').getContext('2d');
-            window.chartInstances.executivoChart = new Chart(ctx_exec, {
-                type: 'bar',
-                data: {
-                    labels: ['2021', '2025'],
-                    datasets: [
-                        { label: 'Mulheres', data: [7.1, 20.6], backgroundColor: corMulheres, borderRadius: 4 },
-                        { label: 'Homens', data: [92.9, 79.4], backgroundColor: corHomens, borderRadius: 4 }
-                    ]
-                },
-                options: groupedBarOptions('Evolução Executivo RJ')
-            });
+            window.chartInstances.executivoChart = new Chart(ctx_exec, { type: 'bar', data: { labels: ['2021', '2025'], datasets: [{ label: 'Mulheres', data: [7.1, 20.6], backgroundColor: corMulheres, borderRadius: 4 }, { label: 'Homens', data: [92.9, 79.4], backgroundColor: corHomens, borderRadius: 4 }] }, options: groupedBarOptions('Evolução Executivo RJ') });
 
             const ctx_alerj = document.getElementById('alerjChart').getContext('2d');
-            window.chartInstances.alerjChart = new Chart(ctx_alerj, {
-                type: 'bar',
-                data: {
-                    labels: ['2021', '2025'],
-                    datasets: [
-                        { label: 'Mulheres', data: [21.4, 22.9], backgroundColor: corMulheres, borderRadius: 4 },
-                        { label: 'Homens', data: [78.6, 77.1], backgroundColor: corHomens, borderRadius: 4 }
-                    ]
-                },
-                options: groupedBarOptions('Evolução ALERJ')
-            });
+            window.chartInstances.alerjChart = new Chart(ctx_alerj, { type: 'bar', data: { labels: ['2021', '2025'], datasets: [{ label: 'Mulheres', data: [21.4, 22.9], backgroundColor: corMulheres, borderRadius: 4 }, { label: 'Homens', data: [78.6, 77.1], backgroundColor: corHomens, borderRadius: 4 }] }, options: groupedBarOptions('Evolução ALERJ') });
 
             const ctx_pref = document.getElementById('prefeiturasChart').getContext('2d');
-            window.chartInstances.prefeiturasChart = new Chart(ctx_pref, {
-                type: 'bar',
-                data: {
-                    labels: ['2021', '2025'],
-                    datasets: [
-                        { label: 'Mulheres', data: [8.7, 15.2], backgroundColor: corMulheres, borderRadius: 4 },
-                        { label: 'Homens', data: [91.3, 84.8], backgroundColor: corHomens, borderRadius: 4 }
-                    ]
-                },
-                options: groupedBarOptions('Evolução Prefeituras')
-            });
+            window.chartInstances.prefeiturasChart = new Chart(ctx_pref, { type: 'bar', data: { labels: ['2021', '2025'], datasets: [{ label: 'Mulheres', data: [8.7, 15.2], backgroundColor: corMulheres, borderRadius: 4 }, { label: 'Homens', data: [91.3, 84.8], backgroundColor: corHomens, borderRadius: 4 }] }, options: groupedBarOptions('Evolução Prefeituras') });
 
             const ctx_tjrj = document.getElementById('tjrjChart').getContext('2d');
-            window.chartInstances.tjrjChart = new Chart(ctx_tjrj, {
-                type: 'doughnut',
+            window.chartInstances.tjrjChart = new Chart(ctx_tjrj, { type: 'doughnut', data: { labels: ['Mulheres', 'Homens'], datasets: [{ data: [41.2, 58.8], backgroundColor: [corMulheres, corHomens], borderColor: [corBgCard, corBgCard], borderWidth: 4 }] }, options: doughnutOptions('Composição TJRJ (2025)') });
+        }
+
+        // --- Gráficos da Aba Liderança ---
+        function createLiderancaCharts() {
+            if (window.chartInstances.gapChefiaChart) window.chartInstances.gapChefiaChart.destroy();
+            if (window.chartInstances.historicoPoliticoChart) window.chartInstances.historicoPoliticoChart.destroy();
+            if (window.chartInstances.historicoGerencialChart) window.chartInstances.historicoGerencialChart.destroy();
+            if (window.chartInstances.historicoRendaGestaoChart) window.chartInstances.historicoRendaGestaoChart.destroy();
+
+            // NOVO: Gráfico de Evolução do Gap Salarial
+            const ctx_gap = document.getElementById('gapChefiaChart').getContext('2d');
+            window.chartInstances.gapChefiaChart = new Chart(ctx_gap, {
+                type: 'line',
                 data: {
-                    labels: ['Mulheres', 'Homens'],
-                    datasets: [{
-                        data: [41.2, 58.8],
-                        backgroundColor: [corMulheres, corHomens],
-                        borderColor: [corBgCard, corBgCard],
-                        borderWidth: 4
-                    }]
+                    labels: ['2017', '2018', '2019', '2020', '2021', '2022'],
+                    datasets: [
+                        { 
+                            label: 'Gap Salarial (R$ a favor dos homens)', 
+                            data: [2344, 3857, 2583, 2877, 3281, 1714], 
+                            borderColor: corKpiNegative, 
+                            backgroundColor: corKpiNegative, 
+                            tension: 0.3, 
+                            borderWidth: 3,
+                            pointRadius: 4
+                        }
+                    ]
                 },
-                options: doughnutOptions('Composição TJRJ (2025)')
+                options: globalChartOptions({
+                     tooltip: { callbacks: { label: (c) => `${c.dataset.label}: R$ ${c.raw}` } }
+                }, { y: { title: { display: true, text: 'Diferença em Reais (R$)' } } })
+            });
+
+            // 1. Histórico Político (Ministérios vs Câmara)
+            const ctx_hist_pol = document.getElementById('historicoPoliticoChart').getContext('2d');
+            window.chartInstances.historicoPoliticoChart = new Chart(ctx_hist_pol, {
+                type: 'line',
+                data: {
+                    labels: ['2017', '2020', '2023'],
+                    datasets: [
+                        { label: 'Ministérios (Brasil)', data: [4.5, 11.8, 25.0], borderColor: corAccent, backgroundColor: corAccent, tension: 0.3, borderWidth: 3 },
+                        { label: 'Câmara Deputados (RJ)', data: [13.0, 21.7, 19.1], borderColor: corMulheres, backgroundColor: corMulheres, tension: 0.3, borderWidth: 3, borderDash: [5, 5] }
+                    ]
+                },
+                options: globalChartOptions({
+                     tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${c.raw}%` } }
+                }, { y: { min: 0, ticks: { callback: (v) => v + '%' } } })
+            });
+
+            // 2. Histórico Gerencial (RJ)
+            const ctx_hist_ger = document.getElementById('historicoGerencialChart').getContext('2d');
+            window.chartInstances.historicoGerencialChart = new Chart(ctx_hist_ger, {
+                type: 'bar',
+                data: {
+                    labels: ['2017', '2018', '2019', '2020', '2021', '2022'],
+                    datasets: [
+                        { label: 'Mulheres', data: [39.9, 43.4, 42.0, 37.8, 34.6, 37.8], backgroundColor: corMulheres, borderRadius: 4 },
+                        { label: 'Homens', data: [60.1, 56.6, 58.0, 62.2, 65.4, 62.2], backgroundColor: corHomens, borderRadius: 4 }
+                    ]
+                },
+                options: globalChartOptions({}, { x: { stacked: true }, y: { stacked: true, max: 100 } })
+            });
+
+            // 3. Histórico Renda Gestão (RJ)
+            const ctx_hist_renda = document.getElementById('historicoRendaGestaoChart').getContext('2d');
+            window.chartInstances.historicoRendaGestaoChart = new Chart(ctx_hist_renda, {
+                type: 'line',
+                data: {
+                    labels: ['2017', '2018', '2019', '2020', '2021', '2022'],
+                    datasets: [
+                        { label: 'Homens (R$)', data: [7829, 9471, 9590, 12746, 9978, 11940], borderColor: corBordaHomens, backgroundColor: corHomens, tension: 0.2, borderWidth: 3 },
+                        { label: 'Mulheres (R$)', data: [5484, 5614, 7007, 9869, 6697, 10226], borderColor: corBordaMulheres, backgroundColor: corMulheres, tension: 0.2, borderWidth: 3 }
+                    ]
+                },
+                options: globalChartOptions({
+                    tooltip: { callbacks: { label: (c) => `${c.dataset.label}: R$ ${c.raw}` } }
+                })
             });
         }
-    
-
-        // --- NOVO: Variável para guardar a instância do mapa Leaflet ---
-        window.leafletMapInstance = null;
         
-        // --- NOVO: Dados das Prefeitas (com lat/lon) ---
         const prefeitasData = [
             { cidade: "Araruama, RJ", nome: "Daniela de Livia (Daniela Cuinse Abreu)", lat: -22.873, lon: -42.343 },
             { cidade: "Barra do Piraí, RJ", nome: "Katia Miki", lat: -22.470, lon: -43.825 },
@@ -1075,41 +1040,31 @@
             { cidade: "Vassouras, RJ", nome: "Rosi (Rosilane Almeida Piv T Pontes)", lat: -22.404, lon: -43.662 }
         ];
 
-
-        // --- ATUALIZADO: Função para criar o Mapa (com Leaflet) ---
         function createMapaChart() {
-            // Apenas inicializa o mapa na primeira vez que a aba é aberta
             if (!window.leafletMapInstance) {
                 drawMap();
             } else {
-                // Se a aba for redimensionada enquanto estava escondida, o mapa "quebra".
-                // Isto corrige o tamanho do mapa.
                 setTimeout(() => {
                     window.leafletMapInstance.invalidateSize();
                 }, 100);
             }
         }
-
-        // --- ATUALIZADO: Função para desenhar o Mapa (com Leaflet) ---
+        
         function drawMap() {
             try {
                 const mapContainer = document.getElementById('map_chart_div');
-                mapContainer.innerHTML = ''; // Limpa o "Carregando..."
+                mapContainer.innerHTML = ''; 
                 
-                // 1. Define o centro do mapa (calculado a partir dos pontos)
                 const centroRJ = [-22.25, -42.6];
                 
-                // 2. Inicializa o mapa
                 window.leafletMapInstance = L.map('map_chart_div', {
-                    scrollWheelZoom: false // Evita zoom com o scroll da página
-                }).setView(centroRJ, 8); // Zoom nível 8
+                    scrollWheelZoom: false 
+                }).setView(centroRJ, 8); 
 
-                // 3. Adiciona o mapa de fundo (OpenStreetMap)
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 }).addTo(window.leafletMapInstance);
 
-                // 4. Adiciona os marcadores
                 prefeitasData.forEach(info => {
                     const popupHtml = `
                         <div class="font-sans">
@@ -1131,26 +1086,24 @@
             }
         }
         
-        // --- NOVO: Inicialização no Carregamento da Página ---
         window.addEventListener('DOMContentLoaded', () => {
-            // Esconde todos os painéis, exceto o ativo
             allPanels.forEach(panel => {
                 if (!panel.classList.contains('active-panel')) {
                     panel.classList.add('hidden', 'opacity-0');
                 }
             });
             
-            // Dispara as animações para o painel inicial
             const initialPanel = document.querySelector('.active-panel');
             if (initialPanel) {
                 setTimeout(() => {
                     triggerAnimations(initialPanel);
-                }, 100); // Atraso sutil
+                }, 100); 
             }
+            
+            createInicioCharts();
         });
 
     </script>
 
 </body>
 </html>
-
