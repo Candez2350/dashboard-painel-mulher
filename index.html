@@ -538,27 +538,24 @@
 
             <!-- Aba Saúde (Nova, Placeholder) -->
             <div id="saude" class="tab-panel">
-                <h2 class="h2-title card-animate">Saúde da Mulher</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div class="kpi-card card-animate" style="animation-delay: 100ms;">
-                        <h3 class="kpi-title">Dados em Integração</h3>
-                        <p class="kpi-value kpi-value-animated" style="color: var(--color-text-muted);" data-value="0">-</p>
-                    </div>
-                     <a href="https://cisshiny.saude.rj.gov.br/_d/violencia_select/" target="_blank" rel="noopener" class="kpi-card card-animate hover:border-[var(--color-accent)] group block" style="animation-delay: 200ms; cursor: pointer;">
-                        <h3 class="kpi-title group-hover:text-[var(--color-accent)] transition-colors">Painel Saúde RJ</h3>
-                        <p class="kpi-subtitle">Monitoramento de Violência (CIS-RJ)</p>
-                    </a>
-                    <a href="https://observatoriosaudepublica.com.br/" target="_blank" rel="noopener" class="kpi-card card-animate hover:border-[var(--color-accent)] group block" style="animation-delay: 300ms; cursor: pointer;">
-                        <h3 class="kpi-title group-hover:text-[var(--color-accent)] transition-colors">Observatório Saúde</h3>
-                        <p class="kpi-subtitle">Análises de Saúde Pública</p>
-                    </a>
+                <h2 class="h2-title card-animate">Saúde da Mulher e Indicadores Vitais</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="kpi-card card-animate" style="animation-delay: 100ms;"><h3 class="kpi-title">Mortalidade Materna</h3><p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);" data-value="6349">0</p><p class="kpi-subtitle">Total em 2023</p></div>
+                    <div class="kpi-card card-animate" style="animation-delay: 200ms;"><h3 class="kpi-title">Mães Adolescentes</h3><p class="kpi-value kpi-value-animated" style="color: var(--color-accent);" data-value="19193">0</p><p class="kpi-subtitle">Menores de 19 anos (2023)</p></div>
+                    <div class="kpi-card card-animate" style="animation-delay: 300ms;"><h3 class="kpi-title">UBS / Centros Saúde</h3><p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-positive);" data-value="1850">0</p><p class="kpi-subtitle">Unidades em 2023</p></div>
+                    <div class="kpi-card card-animate" style="animation-delay: 400ms;"><h3 class="kpi-title">Pré-natal (7+ consult)</h3><p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-positive);" data-value="135415">0</p><p class="kpi-subtitle">Atendimentos em 2023</p></div>
                 </div>
-                <div class="chart-card card-animate text-center py-12" style="animation-delay: 400ms;">
-                    <div class="inline-flex p-4 rounded-full bg-slate-50 mb-4 text-slate-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
-                    </div>
-                    <h3 class="text-lg font-medium text-slate-700">Área de Indicadores de Saúde</h3>
-                    <p class="text-slate-500 max-w-md mx-auto mt-2">Esta seção está preparada para receber dados de mortalidade materna e exames preventivos.</p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <div class="chart-card card-animate" style="animation-delay: 500ms;"><h3 class="h3-title text-center">Evolução da Mortalidade Infantil e Materna</h3><div class="h-[300px] relative"><canvas id="mortalidadeInfMatChart"></canvas></div></div>
+                    <div class="chart-card card-animate" style="animation-delay: 600ms;"><h3 class="h3-title text-center">Saúde Reprodutiva e Acesso</h3><div class="h-[300px] relative"><canvas id="saudeReprodutivaChart"></canvas></div></div>
+                    <div class="chart-card card-animate" style="animation-delay: 700ms;"><h3 class="h3-title text-center">Mortalidade por Causas Externas (Suicídio, Homicídio, Transp.)</h3><div class="h-[300px] relative"><canvas id="causasExternasChart"></canvas></div></div>
+                    <div class="chart-card card-animate" style="animation-delay: 800ms;"><h3 class="h3-title text-center">Óbitos por Doenças Prematuras e Circulatórias (Mulheres)</h3><div class="h-[300px] relative"><canvas id="doencasCronicasChart"></canvas></div></div>
+                </div>
+
+                <div class="chart-card card-animate mb-8" style="animation-delay: 900ms;">
+                    <h3 class="h3-title">Histórico de Indicadores de Saúde</h3>
+                    <div class="overflow-x-auto rounded-lg"><table class="custom-table" id="tabelaSaude"><thead><tr><th>Indicador</th><th>2020</th><th>2021</th><th>2022</th><th>2023</th></tr></thead><tbody></tbody></table></div>
                 </div>
             </div>
 
@@ -854,9 +851,89 @@
             }
         }
 
-        // --- Placeholder Charts for Health Tab ---
+        // --- GRÁFICOS SAÚDE (DADOS FORNECIDOS) ---
         function createSaudeCharts() {
-             // Currently no charts to create, but function needed for tab switch logic
+            if (window.chartInstances.mortalidadeInfMatChart) window.chartInstances.mortalidadeInfMatChart.destroy();
+            if (window.chartInstances.saudeReprodutivaChart) window.chartInstances.saudeReprodutivaChart.destroy();
+            if (window.chartInstances.causasExternasChart) window.chartInstances.causasExternasChart.destroy();
+            if (window.chartInstances.doencasCronicasChart) window.chartInstances.doencasCronicasChart.destroy();
+
+            const anos = ['2020', '2021', '2022', '2023'];
+
+            // Gráfico 1: Mortalidade Materna e Infantil
+            const ctx1 = document.getElementById('mortalidadeInfMatChart').getContext('2d');
+            window.chartInstances.mortalidadeInfMatChart = new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: anos,
+                    datasets: [
+                        { label: 'Infantil (<1 ano)', data: [2508, 2417, 2374, 2370], borderColor: '#60a5fa', tension: 0.3 },
+                        { label: 'Materna', data: [7936, 9458, 6664, 6349], borderColor: '#f43f5e', borderWidth: 4, tension: 0.3 }
+                    ]
+                },
+                options: globalChartOptions()
+            });
+
+            // Gráfico 2: Saúde Reprodutiva
+            const ctx2 = document.getElementById('saudeReprodutivaChart').getContext('2d');
+            window.chartInstances.saudeReprodutivaChart = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: anos,
+                    datasets: [
+                        { label: 'Mães Adolescentes (<19)', data: [26549, 23393, 20131, 19193], backgroundColor: '#fcd34d' },
+                        { label: 'Parto Vaginal', data: [82657, 79244, 73144, 69651], backgroundColor: '#34d399' }
+                    ]
+                },
+                options: globalChartOptions()
+            });
+
+            // Gráfico 3: Causas Externas
+            const ctx3 = document.getElementById('causasExternasChart').getContext('2d');
+            window.chartInstances.causasExternasChart = new Chart(ctx3, {
+                type: 'line',
+                data: {
+                    labels: anos,
+                    datasets: [
+                        { label: 'Suicídio (Mulheres)', data: [215, 264, 227, 283], borderColor: '#fb7185', tension: 0.3 },
+                        { label: 'Homicídio', data: [281, 281, 248, 330], borderColor: '#ef4444', tension: 0.3 },
+                        { label: 'Acidentes Transporte', data: [312, 375, 398, 385], borderColor: '#f59e0b', tension: 0.3 }
+                    ]
+                },
+                options: globalChartOptions()
+            });
+
+            // Gráfico 4: Doenças Crônicas (Apenas Mulheres)
+            const ctx4 = document.getElementById('doencasCronicasChart').getContext('2d');
+            window.chartInstances.doencasCronicasChart = new Chart(ctx4, {
+                type: 'bar',
+                data: {
+                    labels: anos,
+                    datasets: [
+                        { label: 'Aparelho Circulatório', data: [18166, 19495, 19114, 18551], backgroundColor: '#8b5cf6' },
+                        { label: 'DCNT (30-69 anos)', data: [14784, 15068, 14851, 14887], backgroundColor: '#a78bfa' }
+                    ]
+                },
+                options: globalChartOptions()
+            });
+
+            // Preencher Tabela de Saúde
+            const tabelaBody = document.querySelector('#tabelaSaude tbody');
+            if (tabelaBody) {
+                tabelaBody.innerHTML = '';
+                const data = [
+                    ["Mortalidade Infantil (<1a)", 2508, 2417, 2374, 2370],
+                    ["Mortalidade Materna", 7936, 9458, 6664, 6349],
+                    ["Mães adolescentes <19a", 26549, 23393, 20131, 19193],
+                    ["Consultas Pré-natal (7+)", 141931, 136566, 131897, 135415],
+                    ["Número de UBS", 1671, 1692, 1731, 1850]
+                ];
+                data.forEach(row => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td>${row[0]}</td>${row.slice(1).map(v => `<td>${v.toLocaleString('pt-BR')}</td>`).join('')}`;
+                    tabelaBody.appendChild(tr);
+                });
+            }
         }
 
         // --- Gráficos da Aba Educação ---
