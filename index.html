@@ -768,24 +768,30 @@
         }
         
         function animateCountUp(el) {
-            const targetValue = parseFloat(el.dataset.value);
+            const cleanValue = el.dataset.value.toString().replace(/\./g, '').replace(',', '.');
+            const targetValue = parseFloat(cleanValue);
             if (isNaN(targetValue)) return;
-            const duration = 1500; const prefix = el.dataset.prefix || ''; const suffix = el.dataset.suffix || '';
-            let start = null; const startValue = 0;
-            const step = (timestamp) => {
-                if (!start) start = timestamp;
-                const progress = Math.min((timestamp - start) / duration, 1);
-                let currentValue = startValue + (targetValue - startValue) * progress * (2 - progress);
-                let textValue;
-                if (Math.abs(targetValue) > 0 && Math.abs(targetValue) < 1) textValue = currentValue.toFixed(1);
-                else if (targetValue % 1 !== 0) textValue = currentValue.toFixed(1);
-                else textValue = currentValue.toFixed(0);
-                if (textValue === '-0,0' || textValue === '-0') textValue = '0';
-                el.textContent = `${prefix}${String(textValue).replace('.', ',')}${suffix}`;
-                if (progress < 1) window.requestAnimationFrame(step);
-                else el.textContent = `${prefix}${String(targetValue).replace('.', ',')}${suffix}`;
+            
+            let start = 0; const duration = 1500; const startTime = performance.now();
+            const prefix = el.dataset.prefix || '';
+            const suffix = el.dataset.suffix || '';
+            
+            const update = (now) => {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeProgress = 1 - Math.pow(1 - progress, 3);
+                const current = start + (targetValue - start) * easeProgress;
+                
+                const formatOptions = {
+                    minimumFractionDigits: targetValue % 1 === 0 ? 0 : 1,
+                    maximumFractionDigits: targetValue % 1 === 0 ? 0 : 1
+                };
+                
+                el.innerText = prefix + current.toLocaleString('pt-BR', formatOptions) + suffix;
+                if (progress < 1) requestAnimationFrame(update);
+                else el.innerText = prefix + targetValue.toLocaleString('pt-BR', formatOptions) + suffix;
             };
-            window.requestAnimationFrame(step);
+            requestAnimationFrame(update);
         }
 
         function triggerAnimations(panel) {
