@@ -255,6 +255,13 @@
                 <img class="w-7 h-7" src="icone-ideia.png"></img>
                 <span>Violências de Gênero</span>
             </button>
+
+            <button class="sidebar-button" onclick="showTab('notas', this)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                 <span>Notas Metodológicas</span>
+            </button>
         </nav>
     </aside>
 
@@ -667,7 +674,75 @@
                     <a href="https://observatoriosaudepublica.com.br/" target="_blank" rel="noopener" class="group relative block w-full max-w-[320px] rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[var(--color-accent)] transition-all duration-300"><div class="p-5 flex flex-col h-full"><div class="flex items-start gap-3"><div class="shrink-0 rounded-lg p-3" style="background-color: rgba(139, 92, 246, 0.1); color: var(--color-accent);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg></div><div class="min-w-0"><h3 class="font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">Observatório Saúde</h3><p class="text-sm mt-1 text-gray-600">Análises de Saúde Pública.</p></div></div><span class="mt-auto inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)] pt-4 group-hover:translate-x-1 transition-transform">Acessar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span></div></a>
                 </div>
             </div>
+            <div id="notas" class="tab-panel">
+    <div class="chart-card mb-8 card-animate"> 
+        <h2 class="text-2xl font-semibold text-slate-800 mb-3">Fontes de Dados e Períodos</h2>
+        <p class="text-slate-600 leading-relaxed">
+            Consulte abaixo a origem dos dados apresentados em cada painel e o período de referência das informações.
+        </p>
+    </div>
 
+    <div class="chart-card card-animate" style="animation-delay: 100ms;">
+        <h3 class="h3-title">Tabela de Fontes</h3>
+        <div class="overflow-x-auto rounded-lg border border-slate-100">
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th class="w-1/4">Painel (Aba)</th>
+                            <th class="w-1/2">Fonte dos Dados</th>
+                            <th class="w-1/4">Período / Ano Ref.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Visão Geral</td>
+                            <td>IBGE (Estimativas de População e PNAD Contínua)</td>
+                            <td>2016 a 2025 (2º Tri)</td>
+                        </tr>
+                        <tr>
+                            <td>Educação</td>
+                            <td>IBGE - PNAD Contínua Anual (Módulo Educação)</td>
+                            <td>2016 a 2024</td>
+                        </tr>
+                        <tr>
+                            <td>Saúde</td>
+                            <td>MS/DATASUS (SIM, SINASC) e SES-RJ</td>
+                            <td>2020 a 2023</td>
+                        </tr>
+                        <tr>
+                            <td>Emprego e Renda</td>
+                            <td>IBGE - PNAD Contínua Trimestral</td>
+                            <td>1º Tri 2023 a 2º Tri 2025</td>
+                        </tr>
+                        <tr>
+                            <td>Cuidado</td>
+                            <td>IBGE - PNAD Contínua Anual (Outras Formas de Trabalho)</td>
+                            <td>2018, 2019 e 2022</td>
+                        </tr>
+                        <tr>
+                            <td>Representação Feminina</td>
+                            <td>TSE, ALERJ, TJRJ e Governo do Estado do RJ</td>
+                            <td>2021 e 2025</td>
+                        </tr>
+                        <tr>
+                            <td>Liderança e Gestão</td>
+                            <td>Caderno de Recursos Humanos (Gov RJ) e IBGE</td>
+                            <td>2017 a 2022</td>
+                        </tr>
+                        <tr>
+                            <td>Mapa Político</td>
+                            <td>Tribunal Superior Eleitoral (TSE) / Prefeituras</td>
+                            <td>2025 (Mandatos Atuais)</td>
+                        </tr>
+                        <tr>
+                            <td>Violências de Gênero</td>
+                            <td>ISP-RJ, Dossiê Mulher, CNJ e Ministério da Saúde</td>
+                            <td>Links Externos (Vários)</td>
+                        </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
         </div>
 
         <!-- Rodapé Dinâmico -->
@@ -745,16 +820,23 @@
             });
             
             // Rodapé Dinâmico
+            // Rodapé Dinâmico
             const footer = document.getElementById('dynamic-footer');
             if (footer) {
                 if (tabId === 'poder') {
-                    footer.innerHTML = "Fonte: Assembleia Legislativa do Estado do Rio de Janeiro, Tribunal de Justiça do Rio de Janeiro, Governo do Estado do Rio de Janeiro e Instituto Brasileiro de Geografia e Estatistica - IBGE";
+                    footer.innerHTML = "Fonte: Assembleia Legislativa do RJ, Tribunal de Justiça do RJ, Governo do Estado e IBGE";
                 } 
                 else if (tabId === 'saude') {
-                    footer.innerHTML = "Fonte: DATASUS - Sistema de Informações sobre Mortalidade - SIM, DATASUS - Sistema de Informação sobre Nascidos Vivos - SINASC e Departamento de Análise Epidemiológica e Vigilância de Doenças Não Transmissíveis";
+                    footer.innerHTML = "Fonte: DATASUS (SIM/SINASC) e Depto. de Análise Epidemiológica";
                 } 
                 else if (tabId === 'lideranca') {
-                    footer.innerHTML = "Instituto Brasileiro de Geografia e Estatistica - IBGE e Caderno de Recursos Humanos - Gestão de Pessoas do Estado do Rio de Janeiro";
+                    footer.innerHTML = "Fonte: IBGE e Caderno de Recursos Humanos - Gestão de Pessoas do RJ";
+                }
+                else if (tabId === 'notas') { // <--- NOVO BLOCO
+                    footer.innerHTML = "Compilação de dados do Painel de Monitoramento 2025";
+                }
+                else if (tabId === 'fontes') {
+                    footer.innerHTML = "Direcionamento para portais externos oficiais.";
                 } 
                 else {
                     footer.innerHTML = "Fonte: Instituto Brasileiro de Geografia e Estatistica - IBGE";
