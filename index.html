@@ -192,10 +192,10 @@
 <body class="font-sans h-screen flex overflow-hidden bg-noise">
 
     <!-- Sidebar Overlay (Agora visível em todas as resoluções quando aberto) -->
-    <div id="sidebar-overlay" onclick="toggleSidebar(false)" class="fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-sm hidden transition-opacity"></div>
+    <div id="sidebar-overlay" onclick="toggleSidebar(false)" class="fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-sm hidden lg:hidden transition-opacity"></div>
 
     <!-- Sidebar (Agora oculta por padrão em todas as resoluções) -->
-    <aside id="sidebar" class="w-72 h-full p-6 flex flex-col flex-shrink-0 fixed top-0 left-0 z-50 bg-white/90 backdrop-blur-md border-r border-slate-100 transform -translate-x-full transition-transform duration-300 ease-in-out shadow-2xl">
+    <aside id="sidebar" class="w-72 h-full p-6 flex flex-col flex-shrink-0 fixed top-0 left-0 z-50 bg-white/90 backdrop-blur-md border-r border-slate-100 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out shadow-2xl">
         <header class="mb-10 px-2">
             <div class="flex items-center gap-3 mb-2">
                 <div class="w-100 h-100">
@@ -259,16 +259,16 @@
     </aside>
 
     <!-- Top Bar (Agora visível em todas as resoluções) -->
-    <div class="fixed top-0 left-0 right-0 h-16 bg-white/80 backdrop-blur-md border-b border-slate-200 z-30 flex items-center px-4 justify-between">
+    <div class="fixed top-0 left-0 lg:left-72 right-0 h-16 bg-white/80 backdrop-blur-md border-b border-slate-200 z-30 flex items-center px-4 justify-between">
         <div class="flex items-center gap-4">
-            <button onclick="toggleSidebar(true)" class="p-2 rounded-md text-slate-600 hover:bg-slate-100 transition-colors">
+            <button onclick="toggleSidebar(true)" class="p-2 lg:hidden rounded-md text-slate-600 hover:bg-slate-100 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </button>
                 <img 
                     src="icone-logo.png" 
-                    class="h-10 w-auto cursor-pointer object-contain hover:opacity-80 transition-opacity"
+                    class="h-10 lg:hidden w-auto cursor-pointer object-contain hover:opacity-80 transition-opacity"
                     onclick="showTab('home', this)"
                     alt="Logo Sistema Gráfico"
                 />
@@ -277,7 +277,7 @@
     </div>
 
     <!-- Main Content (Agora full-width em todas as resoluções) -->
-    <main class="w-full h-full overflow-y-auto relative">
+    <main class="w-full h-full overflow-y-auto relative lg:ml-72">
         <!-- Blobs de Fundo -->
         <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
@@ -416,7 +416,7 @@
                         </div>
                     </div>
                     <div class="kpi-card card-animate" style="animation-delay: 500ms;">
-                        <h3 class="kpi-title">Gap no Ensino Superior (18-24)</h3>
+                        <h3 class="kpi-title">Diferença no Ensino Superior (18-24)</h3>
                         <div class="flex items-baseline gap-4 mt-2">
                             <div class="flex items-baseline gap-1"><span class="text-2xl font-bold" style="color: var(--color-mulheres);">M:</span><p class="text-2xl font-bold kpi-value-animated" style="color: var(--color-mulheres);" data-value="31.5" data-suffix="%">0,0%</p></div>
                             <div class="flex items-baseline gap-1"><span class="text-2xl font-bold" style="color: var(--color-homens);">H:</span><p class="text-2xl font-bold kpi-value-animated" style="color: var(--color-homens);" data-value="23.0" data-suffix="%">0,0%</p></div>
@@ -428,7 +428,7 @@
                 <h2 class="h2-title card-animate" style="animation-delay: 600ms;">Contexto Estrutural e Tendências</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     <div class="kpi-card card-animate" style="animation-delay: 700ms;">
-                        <h3 class="kpi-title">Gap na Força de Trabalho</h3>
+                        <h3 class="kpi-title">Diferença na Força de Trabalho</h3>
                         <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);" data-value="-895" data-suffix=" mil">-0 mil</p>
                         <p class="kpi-subtitle">Mulheres a menos no mercado (2º tri 2025)</p>
                     </div>
@@ -438,7 +438,7 @@
                         <p class="kpi-subtitle">Horas a mais p/ mulheres *fora* do mercado</p>
                     </div>
                     <div class="kpi-card card-animate" style="animation-delay: 900ms;">
-                        <h3 class="kpi-title">Aumento do Gap Salarial</h3>
+                        <h3 class="kpi-title">Aumento do Diferença Salarial</h3>
                         <p class="kpi-value kpi-value-animated" style="color: var(--color-kpi-negative);" data-value="235" data-prefix="+R$ ">+R$ 0</p>
                         <p class="kpi-subtitle">Aumento da diferença (2T 2023-2T 2025)</p>
                     </div>
@@ -624,7 +624,7 @@
                 <h2 class="h2-title card-animate">Liderança e Gestão Pública (Série Histórica)</h2>
                 <div class="grid grid-cols-1 gap-6 mb-8">
                      <div class="chart-card card-animate" style="animation-delay: 100ms;">
-                        <h3 class="h3-title">Evolução do Gap Salarial na Gestão</h3>
+                        <h3 class="h3-title">Evolução do Diferença Salarial na Gestão</h3>
                         <div class="h-[250px] relative"><canvas id="gapChefiaChart"></canvas></div>
                         <p class="text-xs text-slate-400 mt-2">Diferença em Reais (R$) a favor dos homens em cargos gerenciais no RJ.</p>
                     </div>
@@ -775,7 +775,8 @@
         }
         
         function animateCountUp(el) {
-            const cleanValue = el.dataset.value.toString().replace(/\./g, '').replace(',', '.');
+            // Remove apenas a substituição do ponto por vazio
+            const cleanValue = el.dataset.value.toString().replace(',', '.');
             const targetValue = parseFloat(cleanValue);
             if (isNaN(targetValue)) return;
             
@@ -1129,7 +1130,7 @@
             if (window.chartInstances.historicoGerencialChart) window.chartInstances.historicoGerencialChart.destroy();
             if (window.chartInstances.historicoRendaGestaoChart) window.chartInstances.historicoRendaGestaoChart.destroy();
 
-            // NOVO: Gráfico de Evolução do Gap Salarial
+            // NOVO: Gráfico de Evolução do Diferença Salarial
             const ctx_gap = document.getElementById('gapChefiaChart').getContext('2d');
             window.chartInstances.gapChefiaChart = new Chart(ctx_gap, {
                 type: 'line',
@@ -1137,7 +1138,7 @@
                     labels: ['2017', '2018', '2019', '2020', '2021', '2022'],
                     datasets: [
                         { 
-                            label: 'Gap Salarial (R$ a favor dos homens)', 
+                            label: 'Diferença Salarial (R$ a favor dos homens)', 
                             data: [2344, 3857, 2583, 2877, 3281, 1714], 
                             borderColor: corKpiNegative, 
                             backgroundColor: corKpiNegative, 
