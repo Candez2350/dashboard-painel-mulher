@@ -745,6 +745,10 @@
                 </div>
         </div>
     </main>
+    <!-- Rodapé Dinâmico -->
+    <footer id="dynamic-footer" class="bg-white border-t border-slate-200 p-6 text-center text-xs text-slate-500">
+            Fonte: Instituto Brasileiro de Geografia e Estatistica - IBGE
+    </footer>
 
     <script>
         const cssVars = getComputedStyle(document.documentElement);
@@ -813,8 +817,6 @@
                     setTimeout(() => { if (!panel.classList.contains('active-panel')) panel.classList.add('hidden'); }, 400);
                 }
             });
-            
-            // Rodapé Dinâmico
             // Rodapé Dinâmico
             const footer = document.getElementById('dynamic-footer');
             if (footer) {
