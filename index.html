@@ -818,8 +818,17 @@
                 }
             });
             // Rodapé Dinâmico
-            const footer = document.getElementById('dynamic-footer');
-            if (footer) {
+        const footer = document.getElementById('dynamic-footer');
+        
+        if (footer) {
+            // 1. Se for a HOME, esconde o rodapé
+            if (tabId === 'home') {
+                footer.classList.add('hidden');
+            } 
+            // 2. Se for qualquer outra aba, mostra o rodapé e define o texto
+            else {
+                footer.classList.remove('hidden');
+
                 if (tabId === 'poder') {
                     footer.innerHTML = "Fonte: Assembleia Legislativa do RJ, Tribunal de Justiça do RJ, Governo do Estado e IBGE";
                 } 
@@ -829,16 +838,18 @@
                 else if (tabId === 'lideranca') {
                     footer.innerHTML = "Fonte: IBGE e Caderno de Recursos Humanos - Gestão de Pessoas do RJ";
                 }
-                else if (tabId === 'notas') { // <--- NOVO BLOCO
+                else if (tabId === 'notas') {
                     footer.innerHTML = "Compilação de dados do Painel de Monitoramento 2025";
                 }
                 else if (tabId === 'fontes') {
                     footer.innerHTML = "Direcionamento para portais externos oficiais.";
                 } 
                 else {
+                    // Padrão para Visão Geral, Educação, Renda, Cuidado, Mapa
                     footer.innerHTML = "Fonte: Instituto Brasileiro de Geografia e Estatistica - IBGE";
                 }
             }
+        }
 
             if (tabId === 'renda') createRendaCharts();
             else if (tabId === 'jornada') createJornadaCharts();
